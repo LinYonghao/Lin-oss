@@ -1,0 +1,3 @@
+spring:
+  profiles:
+    active: ${LIN_OSS_ENV:dev}
