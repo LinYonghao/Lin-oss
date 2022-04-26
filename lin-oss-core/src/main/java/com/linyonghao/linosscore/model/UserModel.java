@@ -1,15 +1,39 @@
 package com.linyonghao.linosscore.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-
+import java.util.Date;
+@TableName("core_users")
 public class UserModel implements Serializable {
+    public UserModel() {
+    }
+
     private Long id;
     private String email;
     private String mobile;
     private String mobileAreaCode;
     private String accessKey;
     private String SecretKey;
+    private String salt;
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public Long getId() {
         return id;
@@ -57,5 +81,19 @@ public class UserModel implements Serializable {
     @NotNull
     public void setSecretKey(String secretKey) {
         SecretKey = secretKey;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", mobileAreaCode='" + mobileAreaCode + '\'' +
+                ", accessKey='" + accessKey + '\'' +
+                ", SecretKey='" + SecretKey + '\'' +
+                ", salt='" + salt + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 }

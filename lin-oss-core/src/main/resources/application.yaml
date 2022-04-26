@@ -3,7 +3,7 @@ spring:
     active: ${LIN_OSS_ENV:dev}
 
 
-#logging:
-#  config: classpath:log4j2.xml
+logging:
+  config: classpath:log4j2.xml
 server:
   port: 8080

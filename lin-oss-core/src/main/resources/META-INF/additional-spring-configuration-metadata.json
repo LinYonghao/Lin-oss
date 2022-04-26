@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "mybatis.cache-sec",
+      "type": "java.lang.String",
+      "description": "Description for mybatis.cache-sec."
+  }
+] }

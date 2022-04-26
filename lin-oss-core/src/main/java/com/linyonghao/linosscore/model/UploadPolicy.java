@@ -64,4 +64,16 @@ public class UploadPolicy {
     public void setCallback(String callback) {
         this.callback = callback;
     }
+
+    @Override
+    public String toString() {
+        return "UploadPolicy{" +
+                "maxSize='" + maxSize + '\'' +
+                ", MINE='" + MINE + '\'' +
+                ", key='" + key + '\'' +
+                ", scope='" + scope + '\'' +
+                ", deadline=" + deadline +
+                ", callback='" + callback + '\'' +
+                '}';
+    }
 }

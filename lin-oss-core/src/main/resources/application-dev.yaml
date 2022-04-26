@@ -3,13 +3,22 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/java?useUnicode=ture&charachterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/lin-oss?useUnicode=ture&charachterEncoding=UTF-8
   redis:
-    database: 0
+    database: 2
     host: localhost
     port: 6379
     password: 123456
-    timeout: 0
-    lettuce:
-      pool:
-        enabled: true
+    timeout: 120
+
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: -1
+      max-file-size: -1
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+mybatis:
+  cache-sec: 600
