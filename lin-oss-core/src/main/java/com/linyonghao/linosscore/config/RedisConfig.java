@@ -43,9 +43,10 @@ public class RedisConfig {
         fastJsonConfig.setSerializeConfig(serializeConfig);
         FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
         fastJsonRedisSerializer.setFastJsonConfig(fastJsonConfig);
+
+
+
         redisTemplate.setValueSerializer(fastJsonRedisSerializer);
-
-
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);

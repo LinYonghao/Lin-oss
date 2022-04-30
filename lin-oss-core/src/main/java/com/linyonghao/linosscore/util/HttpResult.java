@@ -2,6 +2,7 @@ package com.linyonghao.linosscore.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.linyonghao.linosscore.dto.HttpResponseDTO;
+import com.linyonghao.linosscore.model.HttpJSONResponse;
 
 public class HttpResult {
     public static <T> JSONObject ok(T data){
@@ -43,6 +44,7 @@ public class HttpResult {
         jsonObject.put("data",null);
         return jsonObject;
     }
+
 
 
 

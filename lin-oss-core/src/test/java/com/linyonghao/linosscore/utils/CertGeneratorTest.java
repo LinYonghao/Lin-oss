@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 
 public class CertGeneratorTest {
 
-//    @Test
-//    public void genertateAccessKey(){
-//        System.out.println("CertGenerator.generateAccessKey() = " + CertGenerator.generateAccessKey());
-//    }
+    @Test
+    public void generateAccessKey(){
+        System.out.println("CertGenerator.generateAccessKey() = " + CertGenerator.randomKey());
+    }
+
+
 }

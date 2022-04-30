@@ -1,6 +1,6 @@
-package com.linyonghao.linosscore;
+package com.linyonghao.linosscore.constant;
 
-public class Constant {
+public class CommonConstant {
     public static final String AUTHENTICATION_HEADER = "Authentication";
     public static final String UPLOAD_INFO_SESSION_PREFIX = "UPLOAD_";
 }

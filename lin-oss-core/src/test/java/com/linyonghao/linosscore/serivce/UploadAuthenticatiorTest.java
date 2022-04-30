@@ -22,7 +22,7 @@ public class UploadAuthenticatiorTest {
         userModel.setSecretKey("321");
 
         UploadPolicy uploadPolicy = new UploadPolicy();
-        uploadPolicy.setMINE("*");
+        uploadPolicy.setMINE("image/png");
         uploadPolicy.setKey("abc.png");
         System.out.println(uploadAuthenticator.generateCertification(userModel, uploadPolicy));
 

@@ -17,8 +17,7 @@ public class CertGenerator {
         UUID uuid = UUID.randomUUID();
         String s = uuid.toString();
         byte[] encode = Base64.getEncoder().encode(s.getBytes(StandardCharsets.UTF_8));
-        String key = new String(encode,StandardCharsets.UTF_8);
-        return key;
+        return new String(encode,StandardCharsets.UTF_8);
     }
 
 }

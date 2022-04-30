@@ -1,6 +1,6 @@
 package com.linyonghao.linosscore.interceptor;
 
-import com.linyonghao.linosscore.Constant;
+import com.linyonghao.linosscore.constant.CommonConstant;
 import com.linyonghao.linosscore.exception.HttpResponseException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class UploadInterceptorValidator {
 
         }
 
-        if(request.getHeader(Constant.AUTHENTICATION_HEADER).isEmpty()){
+        if(request.getHeader(CommonConstant.AUTHENTICATION_HEADER).isEmpty()){
             throw new HttpResponseException("缺少授权头 Authentication");
         }
 

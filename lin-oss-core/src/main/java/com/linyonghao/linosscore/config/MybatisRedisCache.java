@@ -12,13 +12,13 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MybatisRedisCache implements Cache {
-    private static RedisTemplate<String, Object> redisTemplate;
+    protected static RedisTemplate<String, Object> redisTemplate;
 
     Logger logger = LoggerFactory.getLogger(MybatisRedisCache.class);
     private final String id;
     private static int cacheSec;
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    private static final String NAMESPACE = "mybatis-cache:";
+    protected static final String NAMESPACE = "mybatis-cache:";
     @Override
     public ReadWriteLock getReadWriteLock() {
         return readWriteLock;

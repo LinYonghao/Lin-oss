@@ -119,12 +119,12 @@ public class UploadAuthenticator {
         UserModel queryModel = new UserModel();
         queryModel.setAccessKey(accessKey);
         QueryWrapper<UserModel> userModelQueryWrapper = new QueryWrapper<>(queryModel);
-        UserModel userModel = userMapper.selectOne(userModelQueryWrapper);
-        userMapper.
-        if(userModel== null){
+        List<UserModel> userModels = userMapper.selectList(userModelQueryWrapper);
+        if(userModels== null){
             throw new NotfoundUserModelException("找不到该用户");
         }
 
+        UserModel userModel = userModels.get(0);
 
         // 校验
         String withAccessKey = String.format("%s-%s", encodedPolicy, userModel.getSecretKey());

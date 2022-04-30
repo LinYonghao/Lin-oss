@@ -3,6 +3,16 @@
     {
       "name": "mybatis.cache-sec",
       "type": "java.lang.String",
-      "description": "Description for mybatis.cache-sec."
-  }
-] }
+      "description": "二级缓存时间"
+    },
+    {
+      "name": "file.service.name",
+      "type": "java.lang.String",
+      "description": "设置文件服务的提供类"
+    },
+    {
+      "name": "app.path",
+      "type": "java.lang.String",
+      "description": "工作目录"
+    }
+  ] }

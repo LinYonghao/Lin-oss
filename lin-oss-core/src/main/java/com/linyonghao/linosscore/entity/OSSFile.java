@@ -1,12 +1,32 @@
 package com.linyonghao.linosscore.entity;
 
-public class FastDFSFile {
+import java.io.Serializable;
+
+public class OSSFile implements Serializable {
     private String name;
     private byte[] bin;
     private String md5;
     private String author;
     private String ext;
     private String absolutePath;
+    private long size;
+    private String remoteFilename;
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
+    public String getRemoteFilename() {
+        return remoteFilename;
+    }
+
+    public void setRemoteFilename(String remoteFilename) {
+        this.remoteFilename = remoteFilename;
+    }
 
     public String getAbsolutePath() {
         return absolutePath;
@@ -24,14 +44,14 @@ public class FastDFSFile {
         this.ext = ext;
     }
 
-    public FastDFSFile(String name, byte[] bin, String md5, String author) {
+    public OSSFile(String name, byte[] bin, String md5, String author) {
         this.name = name;
         this.bin = bin;
         this.md5 = md5;
         this.author = author;
     }
 
-    public FastDFSFile() {
+    public OSSFile() {
     }
 
     public String getName() {

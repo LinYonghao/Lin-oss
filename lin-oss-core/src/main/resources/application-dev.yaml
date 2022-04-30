@@ -6,19 +6,36 @@ spring:
     url: jdbc:mysql://localhost:3306/lin-oss?useUnicode=ture&charachterEncoding=UTF-8
   redis:
     database: 2
-    host: localhost
+    host: 172.20.96.46
     port: 6379
     password: 123456
     timeout: 120
+
+  devtools:
+    restart:
+      enabled: true
 
   servlet:
     multipart:
       enabled: true
       max-request-size: -1
       max-file-size: -1
+  rabbitmq:
+    host: 172.20.96.46
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: true
 mybatis:
   cache-sec: 600
+
+file:
+  service:
+    name: ${FILE_SERVICE_NAME:FastDFS}
+app:
+  path: ${LIN_OSS_PATH:${TEMP}}
+

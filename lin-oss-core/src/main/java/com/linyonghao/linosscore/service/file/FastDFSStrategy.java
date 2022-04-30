@@ -1,7 +1,6 @@
-package com.linyonghao.linosscore.util;
+package com.linyonghao.linosscore.service.file;
 
-import com.linyonghao.linosscore.entity.FastDFSFile;
-import com.linyonghao.linosscore.exception.FastDFSUploadException;
+import com.linyonghao.linosscore.entity.OSSFile;
 import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
@@ -11,8 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
-public class FastDFSUtil {
-    private static final Logger logger = LoggerFactory.getLogger(FastDFSUtil.class);
+public class FastDFSStrategy implements FileStrategy {
+    private static final Logger logger = LoggerFactory.getLogger(FastDFSStrategy.class);
 
     static {
 
@@ -27,8 +26,7 @@ public class FastDFSUtil {
 
     }
 
-    public static String[] uploadFile(FastDFSFile file) throws FastDFSUploadException {
-
+    public String uploadFile(OSSFile file) throws FileUploadException {
 
         NameValuePair[] metaList = new NameValuePair[1];
         metaList[0] = new NameValuePair(file.getAuthor());
@@ -46,25 +44,42 @@ public class FastDFSUtil {
 
             if (result == null) {
                 logger.error("上传文件错误，错误码: " + trackerClient.getErrorCode());
+                throw new FileUploadException("上传失败");
             }
 
-            return result;
+            return result[0] + "-" + result[1];
         } catch (IOException | MyException e) {
             e.printStackTrace();
             logger.error("上传文件失败" + e.getMessage());
-            throw new FastDFSUploadException(e.getMessage());
+            throw new FileUploadException(e.getMessage());
         }
 
     }
 
+    @Override
+    public byte[] downloadFile(String fileKey) throws FileDownloadException {
+        String[] split = fileKey.split("-");
+        if (split.length != 2){
+            throw new IllegalArgumentException("不符合FastDFS的fileKey");
+        }
+        StorageClient trackerClient = getTrackerClient();
+        try {
+            return trackerClient.download_file(split[0], split[1]);
+        } catch (IOException |MyException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            throw new FileDownloadException("下载失败");
+        }
+    }
 
-    public static StorageClient getTrackerClient() {
+
+    public StorageClient getTrackerClient() {
         TrackerServer trackerServer = getTrackerServer();
         return new StorageClient(trackerServer, null);
     }
 
 
-    public static TrackerServer getTrackerServer() {
+    public TrackerServer getTrackerServer() {
         TrackerClient trackerClient = new TrackerClient();
         try {
             return trackerClient.getConnection();

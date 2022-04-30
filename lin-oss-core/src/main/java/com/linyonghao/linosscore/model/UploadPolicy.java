@@ -1,5 +1,7 @@
 package com.linyonghao.linosscore.model;
 
+import java.io.Serializable;
+
 /**
  * 上传策略
  * 	max_size,
@@ -9,19 +11,28 @@ package com.linyonghao.linosscore.model;
  * 	deadline,// 截至时间戳
  * 	callback,//上传成功将数据回调地址
  */
-public class UploadPolicy {
-   private String maxSize;
+public class UploadPolicy implements Serializable {
+   private long maxSize;
    private String MINE;
    private String key;
    private String scope;
    private long deadline;
    private String callback;
+   private String ext;
 
-    public String getMaxSize() {
+    public String getExt() {
+        return ext;
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    public long getMaxSize() {
         return maxSize;
     }
 
-    public void setMaxSize(String maxSize) {
+    public void setMaxSize(long maxSize) {
         this.maxSize = maxSize;
     }
 

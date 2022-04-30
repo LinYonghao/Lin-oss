@@ -71,7 +71,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
 
         <!--Mybatis plus from baomidou.com-->
@@ -91,11 +90,6 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>1.29.0</version>
-        </dependency>
 
 
         <dependency>
@@ -108,7 +102,7 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.49</version>
         </dependency>
-
+<!--        FastDFS 支持-->
         <dependency>
             <groupId>net.oschina.zcx7878</groupId>
             <artifactId>fastdfs-client-java</artifactId>
