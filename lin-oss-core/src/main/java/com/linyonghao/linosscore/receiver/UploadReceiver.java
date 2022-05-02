@@ -18,8 +18,11 @@ public class UploadReceiver {
 
     @RabbitListener(queues = MQName.UPLOAD_LOG)
     public void uploadLogHandler(UploadMessage uploadMessage){
-        logger.info(uploadMessage.toString());5
+        logger.info(uploadMessage.toString());
+        long size = uploadMessage.getOssFile().getSize();
+        // 上传流量
+        // key upload_{user_id} 5s
+        // hash key:
+        // value
     }
-
-
 }
