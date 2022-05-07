@@ -7,3 +7,10 @@ logging:
   config: classpath:log4j2.xml
 server:
   port: 8080
+
+redis:
+  database: lin-oss
+  key:
+    user:
+      accessKey: core:user:accessKey
+      userId: core:user:userId

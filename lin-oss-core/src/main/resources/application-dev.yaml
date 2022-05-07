@@ -1,12 +1,18 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/lin-oss?useUnicode=ture&charachterEncoding=UTF-8
+    mysql-server:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456
+      jdbc-url: jdbc:mysql://localhost:3306/lin-oss?useUnicode=ture&charachterEncoding=UTF-8
+    tdengine-server:
+      driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
+      username: root
+      password: taosdata
+      jdbc-url: jdbc:TAOS-RS://${DEV_HOST}:6041/demo?useUnicode=ture&charachterEncoding=UTF-8
   redis:
     database: 2
-    host: 172.20.96.46
+    host: ${DEV_HOST}
     port: 6379
     password: 123456
     timeout: 120
@@ -21,7 +27,7 @@ spring:
       max-request-size: -1
       max-file-size: -1
   rabbitmq:
-    host: 172.20.96.46
+    host: ${DEV_HOST}
     port: 5672
     username: guest
     password: guest

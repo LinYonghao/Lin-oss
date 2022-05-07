@@ -14,5 +14,15 @@
       "name": "app.path",
       "type": "java.lang.String",
       "description": "工作目录"
+    },
+    {
+      "name": "server.redis.database",
+      "type": "java.lang.String",
+      "description": "设置系统redis前缀"
+    },
+    {
+      "name": "server.redis.key.user",
+      "type": "java.lang.String",
+      "description": "设置user redis 前缀"
     }
   ] }

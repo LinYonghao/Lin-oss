@@ -8,6 +8,7 @@ class LinOssManagerApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }
