@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 下载控制器类 用于处理下载事件
+ */
 @RestController
 @RequestMapping("/download")
 public class DownloadFileController {
