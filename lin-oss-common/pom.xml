@@ -20,6 +20,17 @@
             <artifactId>mybatis-plus-boot-starter-test</artifactId>
             <version>3.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.influxdb</groupId>
+            <artifactId>influxdb-client-java</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.linyonghao</groupId>
+            <artifactId>influxdb2-orm</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
 
 

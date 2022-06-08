@@ -1,16 +1,25 @@
 package com.linyonghao.oss.core.dto;
 
+import com.linyonghao.influxdb2.annotation.DBField;
+import com.linyonghao.influxdb2.annotation.Measurement;
+import com.linyonghao.influxdb2.annotation.Tag;
 import com.linyonghao.oss.common.entity.OSSFile;
 import com.linyonghao.oss.core.entity.DownloadParams;
 
 import java.io.Serializable;
-
+@Measurement(name = "download_log")
 public class DownloadMessage implements Serializable {
+    @DBField
     private DownloadParams downloadParams;
-    private OSSFile ossFile;
+    @DBField
+    private String fileKey;
+    @DBField
+    private long size;
+    @DBField
     private String clientIp;
+    @Tag
     private long userId;
-    private String datetime;
+    private long datetime;
 
     public String getClientIp() {
         return clientIp;
@@ -20,11 +29,11 @@ public class DownloadMessage implements Serializable {
         this.clientIp = clientIp;
     }
 
-    public String getDatetime() {
+    public long getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(String datetime) {
+    public void setDatetime(long datetime) {
         this.datetime = datetime;
     }
 
@@ -36,15 +45,29 @@ public class DownloadMessage implements Serializable {
         this.userId = userId;
     }
 
-
-
-
-    public DownloadMessage(DownloadParams downloadParams, OSSFile ossFile,String clientIp,long userId,String datetime) {
+    public DownloadMessage(DownloadParams downloadParams, String fileKey, long size, String clientIp, long userId, long datetime) {
         this.downloadParams = downloadParams;
-        this.ossFile = ossFile;
+        this.fileKey = fileKey;
+        this.size = size;
         this.clientIp = clientIp;
         this.userId = userId;
         this.datetime = datetime;
+    }
+
+    public String getFileKey() {
+        return fileKey;
+    }
+
+    public void setFileKey(String fileKey) {
+        this.fileKey = fileKey;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
     }
 
     public DownloadParams getDownloadParams() {
@@ -55,11 +78,5 @@ public class DownloadMessage implements Serializable {
         this.downloadParams = downloadParams;
     }
 
-    public OSSFile getOssFile() {
-        return ossFile;
-    }
 
-    public void setOssFile(OSSFile ossFile) {
-        this.ossFile = ossFile;
-    }
 }

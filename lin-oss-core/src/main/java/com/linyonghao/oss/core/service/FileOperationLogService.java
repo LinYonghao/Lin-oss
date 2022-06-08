@@ -1,41 +1,34 @@
 package com.linyonghao.oss.core.service;
 
-import com.alibaba.fastjson.JSON;
-import com.linyonghao.oss.common.dao.mapper.sequential.DownloadMapper;
-import com.linyonghao.oss.common.dao.mapper.sequential.UploadLogMapper;
+import com.influxdb.client.InfluxDBClient;
+import com.linyonghao.oss.core.mapper.UploadLogMapper;
+import com.linyonghao.oss.core.model.UploadLogModel;
 import com.linyonghao.oss.core.dto.DownloadMessage;
 import com.linyonghao.oss.core.dto.UploadMessage;
-import com.linyonghao.oss.core.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
+/**
+ * 文件操作日志服务
+ */
 @Service
 public class FileOperationLogService {
     @Autowired
+    InfluxDBClient influxDBClient;
+    @Autowired
     UploadLogMapper uploadLogMapper;
 
-    @Autowired
-    DownloadMapper downloadMapper;
+    public void logUpload(UploadMessage uploadMessage) {
+        uploadLogMapper.insert(new UploadLogModel(
+            uploadMessage.getUserModel().getId(),
+                uploadMessage.getUploadPolicy().getKey(),
+                uploadMessage.getOssFile().getSize(),
+                uploadMessage.getUploadPolicy(),
+                uploadMessage.getTime().getTime()
+        ),uploadMessage.getTime().getTime());
 
-    public void logUpload(UploadMessage uploadMessage){
-        uploadLogMapper.insert(
-                uploadMessage.getUserModel().getId(),
-                TimeUtil.format(uploadMessage.getTime()),
-                uploadMessage.getOssFile().getMd5(),
-                uploadMessage.getOssFile().getRemoteFilename(),
-                JSON.toJSONString(uploadMessage.getUploadPolicy()),
-                uploadMessage.getOssFile().getSize()
-        );
     }
 
-    public void logDownload(DownloadMessage downloadMessage){
-        downloadMapper.insert(
-                JSON.toJSONString(downloadMessage),
-                TimeUtil.format(new Date()),
-                downloadMessage.getOssFile().getSize(),
-                downloadMessage.getClientIp(),
-                downloadMessage.getUserId());
+    public void logDownload(DownloadMessage downloadMessage) {
     }
 }

@@ -6,7 +6,7 @@
 ## Dependency
 You can install these dependencies by docker-compose.yaml 
 - Mysql
-- [TD-engine](https://github.com/taosdata/TDengine) (a sequential database)
+- [Influxdb](https://www.influxdata.com/) (a sequential database)
 - Redis
 - FastDFS
 
@@ -15,5 +15,8 @@ You can install these dependencies by docker-compose.yaml
 - lin-oss-core : Core business logic,
 - lin-oss-manager: a manager system for OSS,which include data statistics,Management of data bucket,user,object etc.
 - lin-oss-starter: a springboot component for quickly start a project with lin-oss
-- 
-- 
+
+
+## Start
+### 1.set environment
+    LIN_DFS_HOST: fastdfs hostr

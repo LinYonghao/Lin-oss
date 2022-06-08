@@ -1,6 +1,7 @@
 package com.linyonghao.oss.core.service.file;
 
 import com.linyonghao.oss.common.entity.OSSFile;
+import com.linyonghao.oss.common.utils.EnvUtil;
 import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
+import java.util.Properties;
 
 public class FastDFSStrategy implements FileStrategy {
     private static final Logger logger = LoggerFactory.getLogger(FastDFSStrategy.class);
@@ -16,8 +18,13 @@ public class FastDFSStrategy implements FileStrategy {
     static {
 
         try {
-            String absolutePath = new ClassPathResource("fastdfs-client.conf").getFile().getAbsolutePath();
-            ClientGlobal.init(absolutePath);
+
+            Properties properties = new Properties();
+            properties.setProperty("connect_timeout","60");
+            properties.setProperty("network_timeout","60");
+            properties.setProperty("charset","UTF-8");
+            properties.setProperty("fastdfs.tracker_servers", EnvUtil.getEnv("LIN_DFS_TRACKER_HOST","127.0.0.1") + ":22122" );
+            ClientGlobal.initByProperties(properties);
 
         } catch (IOException | MyException e) {
             e.printStackTrace();
@@ -47,7 +54,7 @@ public class FastDFSStrategy implements FileStrategy {
                 throw new FileUploadException("上传失败");
             }
 
-            return result[0] + "-" + result[1];
+            return result[0] + "/" + result[1];
         } catch (IOException | MyException e) {
             e.printStackTrace();
             logger.error("上传文件失败" + e.getMessage());

@@ -35,12 +35,12 @@ public class FileServiceImpl implements FileService {
 
         String ret = fileStrategy.uploadFile(file);
         // 回调处理
-
-        if(uploadPolicy.getCallback() != null && !uploadPolicy.getCallback().isEmpty()){
-            rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME,MQName.UPLOAD_CALLBACK,new UploadMessage(file,uploadPolicy,userModel,new Date()));
+        file.setRemoteFilename(ret);
+        if (uploadPolicy.getCallback() != null && !uploadPolicy.getCallback().isEmpty()) {
+            rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME, MQName.UPLOAD_CALLBACK, new UploadMessage(file, uploadPolicy, userModel, new Date()));
         }
 
-        rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME,MQName.UPLOAD_LOG,new UploadMessage(file,uploadPolicy,userModel,new Date()));
+        rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME, MQName.UPLOAD_LOG, new UploadMessage(file, uploadPolicy, userModel, new Date()));
         return ret;
     }
 
@@ -54,8 +54,14 @@ public class FileServiceImpl implements FileService {
         // 发送 MQ 记录
         rabbitTemplate.convertAndSend(
                 MQName.DOWNLOAD_LOG,
-                new DownloadMessage(downloadParams,ossFile,clientIp,objectBucketDO.getBucketModel().getUserId(),
-                        TimeUtil.format(new Date())));
+                new DownloadMessage(
+                        downloadParams,
+                        key,
+                        bin.length,
+                        clientIp,
+                        objectBucketDO.getBucketModel().getUserId(),
+                        new Date().getTime()
+                ));
         ossFile.setBin(bin);
         return ossFile;
     }

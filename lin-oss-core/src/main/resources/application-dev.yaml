@@ -5,14 +5,16 @@ spring:
       username: root
       password: 123456
       jdbc-url: jdbc:mysql://localhost:3306/lin-oss?useUnicode=ture&charachterEncoding=UTF-8
-    tdengine-server:
-      driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
-      username: root
-      password: taosdata
-      jdbc-url: jdbc:TAOS-RS://${DEV_HOST}:6041/demo?useUnicode=ture&charachterEncoding=UTF-8
+    influx:
+      token: nd94i8ptzGMDkHWLevZ4eU2K1rcBOT_A0qT1Dt7s_CtduY3fG-9i7z1o1bgaoH9xDy13EjcVXldN_YfAPSPHPA==
+      username: LinYonghao
+      password: lyh2000926
+      url: http://${LIN_INFLUXDB_HOST}:8086
+      bucket: lin_oss
+      org: lin_oss
   redis:
     database: 2
-    host: ${DEV_HOST}
+    host: ${LIN_REDIS_HOST}
     port: 6379
     password: 123456
     timeout: 120
@@ -27,7 +29,7 @@ spring:
       max-request-size: -1
       max-file-size: -1
   rabbitmq:
-    host: ${DEV_HOST}
+    host:  ${LIN_RABBITMQ_HOST}
     port: 5672
     username: guest
     password: guest

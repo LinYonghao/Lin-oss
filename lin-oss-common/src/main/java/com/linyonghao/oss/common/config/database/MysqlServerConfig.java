@@ -34,7 +34,7 @@ public class MysqlServerConfig {
     public SqlSessionFactory mybatisSqlSessionFactoryBean(@Qualifier("mysqlDataSource") DataSource dataSource) throws Exception {
         MybatisSqlSessionFactoryBean bean = new MybatisSqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-//        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:com/linyonghao/oss/common/dao/mapper/relationship/*.xml"));
+//        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:com/linyonghao/oss/common/dao/com.linyonghao.influxdb2.mapper/relationship/*.xml"));
         return bean.getObject();
     }
 
