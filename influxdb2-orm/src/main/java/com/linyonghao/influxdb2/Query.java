@@ -4,11 +4,16 @@ import com.alibaba.fastjson2.JSON;
 import com.influxdb.query.FluxColumn;
 import com.influxdb.query.FluxRecord;
 import com.influxdb.query.FluxTable;
+import com.linyonghao.influxdb2.entity.CountWithTime;
+import com.linyonghao.influxdb2.utils.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
 
 public class Query<T> {
     String range;
@@ -16,18 +21,55 @@ public class Query<T> {
     private Class<?> clazz;
     private Map<String, Integer> fieldMap;
     private String measurement;
-    private String aggregateWindow;
 
-    public Query(String bucket, Class<?> clazz, Map<String, Integer> fieldMap) {
+    StringBuilder flux = new StringBuilder();
+    Logger logger = LoggerFactory.getLogger(Query.class);
+
+    public Query(String bucket, Class<?> clazz,String measurement, Map<String, Integer> fieldMap) {
         this.bucket = bucket;
         this.clazz = clazz;
         this.fieldMap = fieldMap;
+        this.measurement = measurement;
+        flux.append("from(bucket: \"").append(bucket).append("\")\n");
     }
 
-    public Query<T> range(String startTime, String endTime) {
-        range = "  |> range(start: " + startTime + ", stop: " + endTime + ")\n";
+    public Query<T> range(Date startTime, Date endTime) {
+
+        startTime = DateUtil.localToUTC(startTime);
+        endTime = DateUtil.localToUTC(endTime);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+        flux.append("  |> range(start: ").append(simpleDateFormat.format(startTime)).append(", stop: ")
+                .append(simpleDateFormat.format(endTime)).append(")\n");
+         return this;
+    }
+
+    public Query<T> range(long startTimestamp,long endTimestamp) {
+        flux.append("  |> range(start: ").append(startTimestamp).append(", stop: ")
+                .append(endTimestamp).append(")\n");
         return this;
     }
+
+    public Query<T> range(String startTime) {
+        flux.append("  |> range(start: ").append(startTime).append(" )\n");
+        return this;
+    }
+
+    public Query<T> filterEqString(String key,String value){
+            flux.append("  |> filter(fn: (r) => r[\""+key+"\"] == \"")
+                .append(value)
+                .append("\"")
+                .append(")\n");
+        // join filter
+        return this;
+    }
+
+    public Query<T> filterMeasurement(){
+        flux.append("  |> filter(fn: (r) => r[\"_measurement\"] == \"").append(measurement).append("\")\n");
+        return this;
+    }
+
 
     public Query<T> setBucketName(String name) {
         bucket = name;
@@ -40,7 +82,13 @@ public class Query<T> {
     }
 
     public Query<T> aggregateWindow(String every, String fn, String column) {
-        aggregateWindow = "|> aggregateWindow(every: " + every + ", fn:" + fn + " , column: \"" + column + "\")";
+        flux.append("|> aggregateWindow(every: ")
+                .append(every)
+                .append(", fn:")
+                .append(fn)
+                .append(" , column: \"")
+                .append(column)
+                .append("\")\n");
         return this;
     }
 
@@ -108,29 +156,39 @@ public class Query<T> {
         return retList;
     }
 
-    public String build() {
-        /**
-         * from(bucket: "lin_oss")
-         *   |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
-         *   |> filter(fn: (r) => r["_measurement"] == "upload_log")
-         *   |> aggregateWindow(every: 10m, fn:sum , column: "_value")
-         *   |> yield()
-         */
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("from(bucket: \"" + bucket + "\")\n");
-        if (range != null) {
-            stringBuilder.append(range);
+    public List<CountWithTime> count(){
+        String build = build();
+        build += "  |> count()";
+        logger.info(build);
+        List<FluxTable> query = InfluxdbGlobal.getInstance().getQueryApi().query(build);
+        List<CountWithTime> counts = new ArrayList<>();
+        for (FluxTable fluxTable : query) {
+            List<FluxRecord> records = fluxTable.getRecords();
+            for (FluxRecord record : records) {
+                Object value = record.getValueByKey("_value");
+                if (value == null) continue;
+                counts.add(new CountWithTime((Long) value, record.getStart().getLong(MICRO_OF_SECOND)));
+            }
         }
-
-        if (aggregateWindow != null) {
-            stringBuilder.append(aggregateWindow);
-        }
-
-        return stringBuilder.toString();
-
-
+        return counts;
     }
 
+    public Query<T> window(String every,boolean createEmpty){
+        flux.append("  |> window(every: ")
+                .append(every);
+
+        if(createEmpty){
+            flux.append(", createEmpty:true");
+        }else{
+            flux.append(", createEmpty:false");
+        }
+        flux.append(")\n");
+        return this;
+    }
+
+    public String build() {
+        return flux.toString();
+    }
 
 }

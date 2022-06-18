@@ -6,6 +6,7 @@ import com.linyonghao.oss.common.model.UserModel;
 import com.linyonghao.oss.common.entity.OSSFile;
 import com.linyonghao.oss.core.service.file.FileService;
 import com.linyonghao.oss.core.service.file.FileUploadException;
+import com.linyonghao.oss.core.service.file.NotFoundBucketException;
 import com.linyonghao.oss.core.util.FileUtil;
 import com.linyonghao.oss.core.util.HttpJsonResult;
 import com.linyonghao.oss.core.validator.FileUploadValidator;
@@ -58,6 +59,8 @@ public class UploadFileController {
         try {
             fileRemoteKey = fileService.uploadFile(OSSFile,uploadPolicy,userModel);
         } catch (FileUploadException e) {
+            return HttpJsonResult.fail(e.getMessage());
+        } catch (NotFoundBucketException e) {
             return HttpJsonResult.fail(e.getMessage());
         }
         return HttpJsonResult.ok(fileRemoteKey);

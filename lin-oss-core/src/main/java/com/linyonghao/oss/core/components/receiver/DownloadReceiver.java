@@ -1,9 +1,10 @@
 package com.linyonghao.oss.core.components.receiver;
 
-import com.alibaba.fastjson.JSON;
+import com.linyonghao.oss.common.model.APILogModel;
 import com.linyonghao.oss.core.constant.MQName;
-import com.linyonghao.oss.core.dto.DownloadMessage;
-import com.linyonghao.oss.core.mapper.DownloadLogMapper;
+import com.linyonghao.oss.common.dto.DownloadMessage;
+import com.linyonghao.oss.core.service.APILogService;
+import com.linyonghao.oss.core.service.FileOperationLogService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,19 @@ import org.springframework.stereotype.Component;
 public class DownloadReceiver {
 
     @Autowired
-    DownloadLogMapper downloadLogMapper;
+    FileOperationLogService fileOperationLogService;
+
+    @Autowired
+    APILogService apiLogService;
 
     @RabbitListener(queues = MQName.DOWNLOAD_LOG)
     public void downloadLog(DownloadMessage downloadMessage){
-        downloadLogMapper.insert(downloadMessage,downloadMessage.getDatetime());
+        fileOperationLogService.logDownload(downloadMessage);
+        APILogModel apiLogModel = new APILogModel();
+        apiLogModel.setIp(downloadMessage.getClientIp());
+        apiLogModel.setType(APILogModel.DOWNLOAD);
+        apiLogModel.setUserId(downloadMessage.getUserId());
+        apiLogModel.setTime(downloadMessage.getDatetime());
+        apiLogService.logOne(apiLogModel);
     }
 }

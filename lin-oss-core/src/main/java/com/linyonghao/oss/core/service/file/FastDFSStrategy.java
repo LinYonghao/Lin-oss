@@ -54,7 +54,7 @@ public class FastDFSStrategy implements FileStrategy {
                 throw new FileUploadException("上传失败");
             }
 
-            return result[0] + "/" + result[1];
+            return result[0] + "-" + result[1];
         } catch (IOException | MyException e) {
             e.printStackTrace();
             logger.error("上传文件失败" + e.getMessage());

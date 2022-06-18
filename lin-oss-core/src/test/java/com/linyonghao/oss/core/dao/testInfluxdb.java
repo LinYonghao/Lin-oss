@@ -4,8 +4,8 @@ import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.WriteApiBlocking;
 import com.influxdb.client.domain.WritePrecision;
 import com.linyonghao.oss.common.config.database.InfluxdbConfig;
-import com.linyonghao.oss.core.mapper.UploadLogMapper;
-import com.linyonghao.oss.core.model.UploadLogModel;
+import com.linyonghao.oss.common.dao.mapper.sequential.UploadLogMapper;
+import com.linyonghao.oss.common.model.UploadLogModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,8 +35,8 @@ public class testInfluxdb {
 
     @Test
     public void testQuery(){
-        List<UploadLogModel> all = uploadLogMapper.query().range("time(v:\"2020-06-01T00:00:00Z\")","now()") .all();
-        System.out.println(all);
+//        List<UploadLogModel> all = uploadLogMapper.query().range("time(v:\"2020-06-01T00:00:00Z\")","now()") .all();
+//        System.out.println(all);
 
     }
 

@@ -10,6 +10,7 @@ public class MybatisRedisCacheForUserMapper extends MybatisRedisCache {
 
     Logger logger = LoggerFactory.getLogger(MybatisRedisCacheForUserMapper.class);
 
+
     public MybatisRedisCacheForUserMapper(String id) {
         super(id);
     }

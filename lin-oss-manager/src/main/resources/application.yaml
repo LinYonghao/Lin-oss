@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: common
+
+zhenzi:
+  apiUrl: http://sms_developer.zhenzikj.com
+  appId: 108081
+  appSecret: 94d1428c-45ce-412b-8fc3-92aaca5ff18a
+  templateId: 3619
+  invalidTimer: 5
+

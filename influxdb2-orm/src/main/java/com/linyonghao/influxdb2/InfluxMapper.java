@@ -75,6 +75,7 @@ public abstract class InfluxMapper<T> {
 
         fieldMap.forEach((k, v) -> {
             try {
+                System.out.println(clazz);
                 Method method = clazz.getMethod("get" + captureName(k));
                 Class<?> returnType = method.getReturnType();
                 Object ret = method.invoke(data);
@@ -85,6 +86,10 @@ public abstract class InfluxMapper<T> {
                         returnType = String.class;
                         ret = JSON.toJSONString(ret);
                     }
+                    if(returnType.getTypeName().equals("int")){
+                        returnType = Number.class;
+                    }
+
                     point.getClass().getMethod("addField", String.class, returnType).invoke(point, k, ret);
                 }
 
@@ -122,11 +127,16 @@ public abstract class InfluxMapper<T> {
 
 
     public Query<T> query() {
-        return new Query<T>(InfluxdbGlobal.getBucketName(), clazz, fieldMap);
+        return new Query<T>(InfluxdbGlobal.getBucketName(), clazz, measurement, fieldMap);
     }
 
-    public void init(Class<?> clazz){
+    public void init(Class<?> clazz) {
         this.clazz = clazz;
+        try {
+            loadMetaInfo(clazz);
+        } catch (NotFoundMeasurementException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

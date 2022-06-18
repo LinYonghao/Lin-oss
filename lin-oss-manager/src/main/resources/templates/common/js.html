@@ -1,0 +1,16 @@
+<!-- 全局js -->
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="js">
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <div th:replace="common/component :: alert"></div>
+</th:block>
+
+<th:block th:fragment="echarts">
+    <script src="/js/echarts.min.js"></script>
+</th:block>
+
+
+</html>

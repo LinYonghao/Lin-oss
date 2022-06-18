@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="alert">
+    <script src="/plugin/toast/jquery.toast.min.js"></script>
+    <link href="/plugin/toast/jquery.toast.min.css" rel="stylesheet">
+    <th:block th:if="${responseMsg}">
+        <script>
+            $.toast({
+                heading:"[[${responseMsg.code == 200 ? '成功' : responseMsg.code == -1 ? '警告' : '失败'}]]",
+                text:"[[${responseMsg.message}]]",
+                icon:"[[${responseMsg.code == 200 ? 'success' : responseMsg.code == -1 ? 'warning' : 'error'}]]",
+                position: 'top-center',
+            })
+        </script>
+    </th:block>
+
+    <script>
+        // 简化一下啊
+        $.success = (info)=>{
+            $.toast({
+                heading:"成功",
+                text:info,
+                icon: "success",
+                position: "top-center"
+            })
+        }
+
+        $.error = (info)=>{
+            $.toast({
+                heading:"失败",
+                text:info,
+                icon: "error",
+                position: "top-center"
+            })
+        }
+    </script>
+
+        </th:block>
+
+</html>

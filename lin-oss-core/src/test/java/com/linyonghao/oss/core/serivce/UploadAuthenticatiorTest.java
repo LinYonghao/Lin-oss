@@ -18,12 +18,13 @@ public class UploadAuthenticatiorTest {
     public void generateUploadPolicy(){
 
         UserModel userModel = new UserModel();
-        userModel.setAccessKey("123");
-        userModel.setSecretKey("321");
+        userModel.setAccessKey("de89998a-c2b6-40e0-827d-6a23d86efbd0");
+        userModel.setSecretKey("a22d16120ecd4c0cae4b294003c3befe");
 
         UploadPolicy uploadPolicy = new UploadPolicy();
         uploadPolicy.setMINE("image/png");
         uploadPolicy.setKey("abc.png");
+        uploadPolicy.setScope("bucket1");
         System.out.println(uploadAuthenticator.generateCertification(userModel, uploadPolicy));
 
     }

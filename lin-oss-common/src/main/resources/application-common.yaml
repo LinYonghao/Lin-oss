@@ -1,0 +1,47 @@
+spring:
+  rabbitmq:
+    host:  ${LIN_RABBITMQ_HOST}
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  datasource:
+    mysql-server:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456
+      jdbc-url: jdbc:mysql://localhost:3306/lin-oss?useUnicode=ture&charachterEncoding=UTF-8
+    influx:
+      token: nd94i8ptzGMDkHWLevZ4eU2K1rcBOT_A0qT1Dt7s_CtduY3fG-9i7z1o1bgaoH9xDy13EjcVXldN_YfAPSPHPA==
+      username: LinYonghao
+      password: lyh2000926
+      url: http://${LIN_INFLUXDB_HOST}:8086
+      bucket: lin_oss
+      org: lin_oss
+  redis:
+    database: 2
+    host: ${LIN_REDIS_HOST}
+    port: 6379
+    password: 123456
+    timeout: 120
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+redis:
+  database: lin-oss
+  key:
+    user:
+      accessKey: core:user:accessKey
+      userId: core:user:userId
+
+logging:
+  level:
+    com.baomidou: debug
+    com.linyonghao.oss.common.dao.mapper.relationship: debug

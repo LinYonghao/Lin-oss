@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${LIN_OSS_ENV:dev}
+    active: ${LIN_OSS_ENV:dev},common
 
 
 logging:
@@ -8,9 +8,3 @@ logging:
 server:
   port: 8080
 
-redis:
-  database: lin-oss
-  key:
-    user:
-      accessKey: core:user:accessKey
-      userId: core:user:userId

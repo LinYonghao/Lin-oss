@@ -1,9 +1,14 @@
 package com.linyonghao.oss.common.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.util.DigestUtils;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
+
 @TableName("core_users")
 public class UserModel implements Serializable {
     public UserModel() {
@@ -17,6 +22,31 @@ public class UserModel implements Serializable {
     private String SecretKey;
     private String salt;
     private Date createTime;
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public static UserModel generateOne(){
+        UserModel userModel = new UserModel();
+        String accessKey = UUID.randomUUID().toString();
+        String secretKey = UUID.randomUUID().toString().replace("-","");
+        userModel.setAccessKey(accessKey);
+        userModel.setSecretKey(secretKey);
+        userModel.setSalt(DigestUtils.md5DigestAsHex(String.format("%s-%s", accessKey,secretKey)
+                .getBytes(StandardCharsets.UTF_8)));
+        userModel.setCreateTime(new Date());
+        userModel.setMobileAreaCode("+86");
+        userModel.setEmail("");
+        return userModel;
+
+    }
+
 
     public Date getCreateTime() {
         return createTime;

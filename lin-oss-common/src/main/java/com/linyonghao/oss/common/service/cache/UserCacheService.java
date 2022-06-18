@@ -56,13 +56,13 @@ public class UserCacheService extends CommonCache<UserModel> {
 
     public UserModel getUser(String accessKey){
         incrementAccessNum();
-        JSONObject jsonObject = (JSONObject) redisTemplate.opsForValue().get(generateKey(DATABASE, ACCESS_KEY, String.valueOf(accessKey)));
-        if(jsonObject == null){
+        UserModel userModel = (UserModel) redisTemplate.opsForValue().get(generateKey(DATABASE, ACCESS_KEY, String.valueOf(accessKey)));
+        if(userModel == null){
             return null;
         }
         incrementHitNumber();
         logger.info("缓存命中率:" + getHitRate());
-        return jsonObject.toJavaObject(getGuideType());
+        return userModel;
     }
 
     public void setUserAccessKey(UserModel userModel){
