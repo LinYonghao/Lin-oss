@@ -12,5 +12,10 @@ import com.linyonghao.oss.common.entity.CoreBucket;
  * @since 2022-06-17
  */
 public interface ICoreBucketService extends IService<CoreBucket> {
+    public boolean isBelongUser(String bucketId,String userId);
+    public long getThisMonthGETCount(String bucketId);
+    public long getThisMonthPOSTCount(String bucketId);
+
+
 
 }

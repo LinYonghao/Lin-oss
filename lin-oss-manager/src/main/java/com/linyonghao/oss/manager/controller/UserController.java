@@ -109,7 +109,7 @@ public class UserController {
 
     @PostMapping("register")
     public ModelAndView registerPOST(String username,String mobile,String code){
-        HashMap<String, String> sessionMap = new HashMap<>();
+        HashMap<String, Object> sessionMap = new HashMap<>();
         sessionMap.put("mobile",mobile);
         sessionMap.put("username",username);
         String realCode = smsRedisService.get(mobile);

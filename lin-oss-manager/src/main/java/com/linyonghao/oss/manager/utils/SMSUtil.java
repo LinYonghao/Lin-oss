@@ -8,9 +8,6 @@ import java.util.Map;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.zhenzi.sms.ZhenziSmsClient;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

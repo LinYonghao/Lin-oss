@@ -18,7 +18,20 @@ public class DownloadMessage implements Serializable {
     private String clientIp;
     @Tag
     private long userId;
+
+    @Tag
+    private long bucketId;
+
     private long datetime;
+
+
+    public long getBucketId() {
+        return bucketId;
+    }
+
+    public void setBucketId(long bucketId) {
+        this.bucketId = bucketId;
+    }
 
     public String getClientIp() {
         return clientIp;
@@ -44,13 +57,14 @@ public class DownloadMessage implements Serializable {
         this.userId = userId;
     }
 
-    public DownloadMessage(DownloadParams downloadParams, String fileKey, long size, String clientIp, long userId, long datetime) {
+    public DownloadMessage(DownloadParams downloadParams, String fileKey, long size, String clientIp, long userId, long datetime,long bucketId) {
         this.downloadParams = downloadParams;
         this.fileKey = fileKey;
         this.size = size;
         this.clientIp = clientIp;
         this.userId = userId;
         this.datetime = datetime;
+        this.bucketId = bucketId;
     }
 
     public String getFileKey() {

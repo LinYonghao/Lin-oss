@@ -11,7 +11,7 @@ public interface ObjectMapper extends BaseMapper<ObjectMapper> {
     @Results({@Result(property = "objectModel.id",column = "o_id"),
             @Result(property = "objectModel.createTime",column = "o_create_time"),
             @Result(property = "objectModel.bucketId",column = "o_bucket_id"),
-            @Result(property = "objectModel.key",column = "o_key"),
+            @Result(property = "objectModel.remoteKey",column = "o_key"),
             @Result(property = "objectModel.mine",column = "o_mine"),
             @Result(property = "objectModel.localKey",column = "o_local_key"),
             @Result(property = "bucketModel.id",column = "b_id"),
@@ -24,7 +24,7 @@ public interface ObjectMapper extends BaseMapper<ObjectMapper> {
             "b.id AS b_id,b.user_id AS b_user_id,b.name AS b_name,b.ac AS b_ac,b.create_time AS b_create_time " +
             " FROM core_object o " +
             "JOIN core_bucket b ON b.id = o.bucket_id " +
-            "WHERE b.id = #{bucketId} AND o.key = #{key}"
+            "WHERE b.id = #{bucketId} AND o.remote_key = #{key}"
             )
     public ObjectBucketDO selectObjectByPath(@Param("bucketId") long bucketId, @Param("key") String key);
 

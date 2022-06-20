@@ -26,6 +26,7 @@ public class DownloadReceiver {
         apiLogModel.setType(APILogModel.DOWNLOAD);
         apiLogModel.setUserId(downloadMessage.getUserId());
         apiLogModel.setTime(downloadMessage.getDatetime());
+        apiLogModel.setBucketId(downloadMessage.getBucketId());
         apiLogService.logOne(apiLogModel);
     }
 }

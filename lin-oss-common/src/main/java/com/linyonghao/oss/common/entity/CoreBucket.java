@@ -2,7 +2,7 @@ package com.linyonghao.oss.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -40,7 +40,8 @@ public class CoreBucket implements Serializable {
       /**
      * 创建时间
      */
-      private LocalDateTime createTime;
+      private Date createTime;
+
 
     
     public Long getId() {
@@ -75,11 +76,11 @@ public class CoreBucket implements Serializable {
           this.ac = ac;
       }
     
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-      public void setCreateTime(LocalDateTime createTime) {
+      public void setCreateTime(Date createTime) {
           this.createTime = createTime;
       }
 

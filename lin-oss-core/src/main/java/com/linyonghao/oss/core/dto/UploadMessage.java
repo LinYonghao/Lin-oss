@@ -13,6 +13,15 @@ public class UploadMessage implements Serializable {
     }
 
     private final Date time;
+    private long bucketId;
+
+    public long getBucketId() {
+        return bucketId;
+    }
+
+    public void setBucketId(long bucketId) {
+        this.bucketId = bucketId;
+    }
 
     public UploadMessage(OSSFile ossFile, UploadPolicy uploadPolicy, UserModel userModel, Date time) {
         this.ossFile = ossFile;

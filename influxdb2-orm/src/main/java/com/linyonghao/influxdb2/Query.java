@@ -45,6 +45,11 @@ public class Query<T> {
          return this;
     }
 
+    public Query<T> group(){
+        flux.append("  |>group()\n");
+        return this;
+    }
+
     public Query<T> range(long startTimestamp,long endTimestamp) {
         flux.append("  |> range(start: ").append(startTimestamp).append(", stop: ")
                 .append(endTimestamp).append(")\n");

@@ -2,13 +2,16 @@ package com.linyonghao.oss.common.config.database;
 
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.logging.slf4j.SLF4JLogger;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -41,7 +44,7 @@ public class MysqlServerConfig {
         mybatisConfiguration.setMapUnderscoreToCamelCase(true);
         mybatisConfiguration.setLogImpl(Slf4jImpl.class);
         bean.setConfiguration(mybatisConfiguration);
-
+        bean.setPlugins();
 
 //        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:com/linyonghao/oss/common/dao/com.linyonghao.influxdb2.mapper/relationship/*.xml"));
         return bean.getObject();

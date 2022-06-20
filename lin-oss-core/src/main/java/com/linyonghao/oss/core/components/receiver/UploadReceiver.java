@@ -24,7 +24,6 @@ public class UploadReceiver {
     @RabbitListener(queues = MQName.UPLOAD_CALLBACK)
     public void uploadCallbackHandler(UploadMessage uploadMessage){
         logger.info(uploadMessage.toString());
-        System.out.println(uploadMessage);
     }
 
     @RabbitListener(queues = MQName.UPLOAD_LOG)

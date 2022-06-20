@@ -1,6 +1,7 @@
-package com.linyonghao.oss.common.service;
+package com.linyonghao.oss.manager.service;
 
 import com.linyonghao.influxdb2.entity.CountWithTime;
+import com.linyonghao.oss.manager.dto.SpaceInfo;
 
 import java.util.List;
 
@@ -40,6 +41,14 @@ public interface StatisticService {
      * @return
      */
     Long getObjectNumById(String id);
+
+    /**
+     * 获取空间概览信息
+     * @param id
+     * @return List<SpaceInfo>
+     */
+    List<SpaceInfo> getSpaceInfoById(String id);
+
 
 
 }

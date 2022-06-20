@@ -12,12 +12,25 @@ public class APILogModel implements Serializable {
 
     @Tag
     private long userId;
+    /**
+     * 空间名
+     */
+    @Tag
+    private long bucketId;
 
     @DBField
     private String ip;
 
-    @DBField
+    @Tag
     private int type;
+
+    public long getBucketId() {
+        return bucketId;
+    }
+
+    public void setBucketId(long bucketId) {
+        this.bucketId = bucketId;
+    }
 
     private long time;
 

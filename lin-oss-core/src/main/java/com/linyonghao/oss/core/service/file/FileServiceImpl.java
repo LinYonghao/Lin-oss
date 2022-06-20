@@ -61,6 +61,7 @@ public class FileServiceImpl implements FileService {
         coreObject.setLocalKey(ret);
         coreObject.setCreateTime(new Date());
         coreObject.setSize(file.getSize());
+        coreObject.setBucketId(bucket.getId());
         coreObjectService.save(coreObject);
 
         if (uploadPolicy.getCallback() != null && !uploadPolicy.getCallback().isEmpty()) {
@@ -87,7 +88,8 @@ public class FileServiceImpl implements FileService {
                         bin.length,
                         clientIp,
                         objectBucketDO.getBucketModel().getUserId(),
-                        new Date().getTime()
+                        new Date().getTime(),
+                        bucketId
                 ));
         ossFile.setBin(bin);
         return ossFile;

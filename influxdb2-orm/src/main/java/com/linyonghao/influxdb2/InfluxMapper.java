@@ -75,7 +75,6 @@ public abstract class InfluxMapper<T> {
 
         fieldMap.forEach((k, v) -> {
             try {
-                System.out.println(clazz);
                 Method method = clazz.getMethod("get" + captureName(k));
                 Class<?> returnType = method.getReturnType();
                 Object ret = method.invoke(data);

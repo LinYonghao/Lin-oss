@@ -9,4 +9,9 @@ public class APILogMapper extends InfluxMapper<APILogModel> {
     public APILogMapper() {
         init(APILogModel.class);
     }
+
+
+    public long getApiNumByBucket(String userId,String bucketId){
+        return 0;
+    }
 }

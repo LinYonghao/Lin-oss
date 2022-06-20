@@ -45,3 +45,11 @@ logging:
   level:
     com.baomidou: debug
     com.linyonghao.oss.common.dao.mapper.relationship: debug
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  pageSizeZero: true
+  params:
+    count: countSql

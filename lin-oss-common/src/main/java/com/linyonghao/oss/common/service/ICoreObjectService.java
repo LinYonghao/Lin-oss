@@ -2,6 +2,9 @@ package com.linyonghao.oss.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.linyonghao.oss.common.entity.CoreObject;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,5 +15,8 @@ import com.linyonghao.oss.common.entity.CoreObject;
  * @since 2022-06-17
  */
 public interface ICoreObjectService extends IService<CoreObject> {
+    public long [] getObjectNumAndSizeSumByBucket(@Param("userId") String userId, @Param("bucketId") String bucketId);
+
+
 
 }

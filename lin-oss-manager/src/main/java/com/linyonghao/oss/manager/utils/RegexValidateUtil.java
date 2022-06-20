@@ -86,7 +86,15 @@ public class RegexValidateUtil {
      * @return
      */
     public static boolean checkQQ(String QQ) {
-        String regex = "^[1-9][0-9]{4,} $";
+        String regex = "^[1-9][0-9]{4,}$";
         return check(QQ, regex);
+    }
+
+    public static boolean customCheck(String pattern,String s){
+        return check(s,pattern);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(customCheck("^[0-9a-zA-Z_]{1,}$", "linoss"));
     }
 }

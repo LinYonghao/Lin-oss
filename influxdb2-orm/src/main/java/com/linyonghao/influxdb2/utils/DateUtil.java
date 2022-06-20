@@ -62,8 +62,7 @@ public class DateUtil {
         instance.set(Calendar.HOUR,0);
         instance.set(Calendar.MINUTE,0);
         instance.set(Calendar.SECOND,0);
-        System.out.println(DateUtil.localToUTC(instance.getTime()));
-        System.out.println(DateUtil.localToUTC(new Date()));
+
     }
 }
 

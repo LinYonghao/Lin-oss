@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="Paginition(url)">
+    <div class="btn-group">
+        <a th:href="${url + '?page=' + (page.hasPreviousPage ? page.pageNum - 1 : page.pageNum)}">
+            <button type="button" th:class="'btn btn-white '+ ${page.hasPreviousPage?'':'disabled'}">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+        </a>
+        <a th:each="i:${#numbers.sequence(1,page.pages)}" th:href="${url + '?page=' + i}">
+            <button th:class="'btn btn-white' +  ${i  == page.pageNum?' active':''}" th:text="${i }"></button>
+        </a>
+        <a th:href="${url + '?page=' + (page.hasNextPage ? page.pageNum + 1 : page.pageNum)}">
+            <button type="button" th:class="'btn btn-white' + ${page.hasNextPage?'':'disabled'}">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </a>
+    </div>
+</th:block>
+</html>

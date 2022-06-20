@@ -2,10 +2,9 @@ package com.linyonghao.oss.manager.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.alibaba.fastjson2.JSON;
 import com.linyonghao.influxdb2.entity.CountWithTime;
-import com.linyonghao.oss.common.service.StatisticService;
 import com.linyonghao.oss.manager.entity.JSONResponse;
+import com.linyonghao.oss.manager.service.StatisticService;
 import com.linyonghao.oss.manager.utils.JSONResponseUtil;
 import com.linyonghao.oss.manager.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,12 @@ public class DashBordController {
      */
     @GetMapping("")
     public ModelAndView get(){
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         String id = (String) StpUtil.getLoginId();
         params.put("today_api_num",String.valueOf(statisticService.getAPITodayNumById(id)));
         params.put("space_num", String.valueOf(statisticService.getSpaceNumById(id)));
         params.put("object_num", String.valueOf(statisticService.getObjectNumById(id)));
+        params.put("space_infos",statisticService.getSpaceInfoById(id));
         return ResponseUtil.view("dashbords",params);
     }
 
@@ -70,6 +70,8 @@ public class DashBordController {
         ret.put("y", yRet);
         return JSONResponseUtil.success(ret);
     }
+
+
 
 
 }

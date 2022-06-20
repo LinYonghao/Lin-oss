@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <th:block th:replace="common/css :: css"/>
+    <title>空间预览</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5 th:text="${bucket_info.name}"></h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="widget style1 navy-bg">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <i class="fa fa-cloud fa-5x"></i>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                <span> 存储量 </span>
+                                <h2 class="font-bold" th:text="${object_size}">26'C</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="widget style1 lazur-bg">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <i class="fa fa-cubes fa-5x"></i>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                <span> 对象数 </span>
+                                <h2 class="font-bold" th:text="${object_num}">260</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="widget style1 yellow-bg">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <i class="fa fa-music fa-5x"></i>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                <span> 本月GET/PUT </span>
+                                <h2 class="font-bold" th:text="${get_count}+'/' + ${post_count}">12</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="widget style1 blue-bg">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <i class="fa fa-tasks fa-5x"></i>
+                            </div>
+                            <div class="col-xs-8 text-right">
+                                <span> 域名 </span>
+                                <h2 class="font-bold">12</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="common/js :: js"/>
+</body>
+</html>

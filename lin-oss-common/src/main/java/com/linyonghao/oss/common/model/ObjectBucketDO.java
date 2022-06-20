@@ -1,8 +1,10 @@
 package com.linyonghao.oss.common.model;
 
+import com.linyonghao.oss.common.entity.CoreObject;
+
 public class ObjectBucketDO {
     private BucketModel bucketModel;
-    private ObjectModel objectModel;
+    private CoreObject objectModel;
 
     public BucketModel getBucketModel() {
         return bucketModel;
@@ -15,11 +17,11 @@ public class ObjectBucketDO {
 
 
 
-    public ObjectModel getObjectModel() {
+    public CoreObject getObjectModel() {
         return objectModel;
     }
 
-    public void setObjectModel(ObjectModel objectModel) {
+    public void setObjectModel(CoreObject objectModel) {
         this.objectModel = objectModel;
     }
 }

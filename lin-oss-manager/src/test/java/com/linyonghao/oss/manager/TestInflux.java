@@ -1,6 +1,6 @@
 package com.linyonghao.oss.manager;
 
-import com.linyonghao.oss.common.service.StatisticService;
+import com.linyonghao.oss.manager.service.StatisticService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
