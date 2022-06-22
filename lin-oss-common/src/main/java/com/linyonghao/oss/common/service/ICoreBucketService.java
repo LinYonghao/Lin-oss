@@ -1,6 +1,7 @@
 package com.linyonghao.oss.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.linyonghao.oss.common.dto.CountAndSize;
 import com.linyonghao.oss.common.entity.CoreBucket;
 
 /**
@@ -17,5 +18,5 @@ public interface ICoreBucketService extends IService<CoreBucket> {
     public long getThisMonthPOSTCount(String bucketId);
 
 
-
+    CountAndSize insertOneObj(String bucketID, long size);
 }

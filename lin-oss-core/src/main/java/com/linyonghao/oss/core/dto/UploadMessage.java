@@ -23,11 +23,12 @@ public class UploadMessage implements Serializable {
         this.bucketId = bucketId;
     }
 
-    public UploadMessage(OSSFile ossFile, UploadPolicy uploadPolicy, UserModel userModel, Date time) {
+    public UploadMessage(OSSFile ossFile, UploadPolicy uploadPolicy, UserModel userModel, Date time,long bucketId) {
         this.ossFile = ossFile;
         this.uploadPolicy = uploadPolicy;
         this.userModel = userModel;
         this.time = time;
+        this.bucketId = bucketId;
     }
 
     public UserModel getUserModel() {

@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.linyonghao.influxdb2.entity.CountWithTime;
 import com.linyonghao.oss.common.dao.mapper.relationship.CoreBucketMapper;
 import com.linyonghao.oss.common.dao.mapper.relationship.CoreObjectMapper;
-import com.linyonghao.oss.common.dao.mapper.relationship.ObjectMapper;
 import com.linyonghao.oss.common.dao.mapper.sequential.APILogMapper;
+import com.linyonghao.oss.common.dao.mapper.sequential.ObjNumLogMapper;
+import com.linyonghao.oss.common.dao.mapper.sequential.StorageLogMapper;
 import com.linyonghao.oss.common.entity.CoreBucket;
-import com.linyonghao.oss.common.entity.CoreObject;
+import com.linyonghao.oss.common.model.APILogModel;
+import com.linyonghao.oss.common.model.StorageLog;
+import com.linyonghao.oss.common.utils.DateUtil;
+import com.linyonghao.oss.manager.dto.BucketStatistic;
 import com.linyonghao.oss.manager.dto.SpaceInfo;
 import com.linyonghao.oss.manager.service.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,12 @@ public class StatisticServiceImpl implements StatisticService {
     CoreObjectMapper coreObjectMapper;
     @Autowired
     APILogMapper apiLogMapper;
+
+    @Autowired
+    StorageLogMapper storageLogMapper;
+
+    @Autowired
+    ObjNumLogMapper objNumLogMapper;
 
     @Override
     public long getSpaceNumById(String id) {
@@ -107,4 +117,83 @@ public class StatisticServiceImpl implements StatisticService {
         }
         return spaceInfos;
     }
+
+    @Override
+    public BucketStatistic getBeforeNDayBucketInfoLimitDay(String bucketId, int days) {
+        // 获取存储量
+        /**
+         *  from(bucket: "lin_oss")
+         *   |> range(start: 1600827200, stop: 1655874723)
+         *   |> filter(fn: (r) => r["_measurement"] == "storage_log")
+         *   |> filter(fn: (r) => r["userId"] == "1")
+         *   |>group()
+         *   |> filter(fn: (r) => r["bucketId"] == "12312313")
+         *   |> aggregateWindow(every: 10d, fn:max,createEmpty: true )
+         */
+        Date startDate = DateUtil.getNDayByToday(days);
+        String interval = "1d";
+        Date endDate =new Date();
+        BucketStatistic bucketStatistic = new BucketStatistic();
+        bucketStatistic.setStorage(this.getStorage(bucketId, startDate, endDate, interval));
+        bucketStatistic.setGet(this.getGETCount(bucketId,startDate,endDate,interval));
+        bucketStatistic.setPost(this.getPOSTCount(bucketId,startDate,endDate,interval));
+        bucketStatistic.setObjNum(this.getObjNum(bucketId,startDate,endDate,interval));
+        return bucketStatistic;
+
+    }
+
+
+    public List<CountWithTime> getStorage(String bucketId, Date startTime, Date endTime, String interval){
+          return storageLogMapper.query()
+                .range(startTime.getTime() / 1000, endTime.getTime() / 1000)
+                .filterMeasurement()
+                .filterEqString("bucketId", bucketId)
+                .group()
+                .aggregateWindow(interval, "max", true)
+                .oneValue();
+    }
+
+
+    public List<CountWithTime> getAPICount(String bucketId,Date startTime,Date endTime,String interval){
+        return apiLogMapper.query()
+                .range(startTime.getTime()/1000,endTime.getTime()/1000)
+                .filterMeasurement()
+                .filterEqString("bucketId",bucketId)
+                .window(interval,true)
+                .group()
+                .count();
+    }
+
+    public List<CountWithTime> getAPICountByType(String bucketId,Date startTime,Date endTime,String interval,int type){
+        return apiLogMapper.query()
+                .range(startTime.getTime()/1000,endTime.getTime()/1000)
+                .filterMeasurement()
+                .filterEqString("bucketId",bucketId)
+                .filterEqString("type", String.valueOf(type))
+                .group()
+                .window(interval,true)
+                .count();
+    }
+
+    public List<CountWithTime> getGETCount(String bucketId,Date startTime,Date endTime,String interval){
+        return getAPICountByType(bucketId, startTime, endTime, interval, APILogModel.DOWNLOAD);
+    }
+
+    public List<CountWithTime> getPOSTCount(String bucketId,Date startTime,Date endTime,String interval){
+        return getAPICountByType(bucketId, startTime, endTime, interval, APILogModel.UPLOAD);
+    }
+
+    public List<CountWithTime> getObjNum(String bucketId,Date startTime,Date endTime,String interval){
+        return objNumLogMapper.query()
+                .range(startTime.getTime() / 1000, endTime.getTime() / 1000)
+                .filterMeasurement()
+                .filterEqString("bucketId", bucketId)
+                .group()
+                .aggregateWindow(interval, "max", true)
+                .oneValue();
+    }
+
+
+
+
 }

@@ -42,8 +42,32 @@ public class CoreBucket implements Serializable {
      */
       private Date createTime;
 
+    /**
+     * 总大小
+     */
+    private long allSize;
 
-    
+    /**
+     * 对象数
+     */
+    private long objNum;
+
+    public long getObjNum() {
+        return objNum;
+    }
+
+    public void setObjNum(long objNum) {
+        this.objNum = objNum;
+    }
+
+    public long getAllSize() {
+        return allSize;
+    }
+
+    public void setAllSize(long allSize) {
+        this.allSize = allSize;
+    }
+
     public Long getId() {
         return id;
     }

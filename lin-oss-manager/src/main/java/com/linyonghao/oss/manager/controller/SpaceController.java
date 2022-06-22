@@ -6,25 +6,33 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.linyonghao.influxdb2.entity.CountWithTime;
+import com.linyonghao.oss.common.config.SystemConfig;
 import com.linyonghao.oss.common.dao.mapper.relationship.CoreBucketMapper;
+import com.linyonghao.oss.common.dao.mapper.sequential.DownloadLogMapper;
 import com.linyonghao.oss.common.entity.CoreBucket;
+import com.linyonghao.oss.common.entity.CoreDomain;
+import com.linyonghao.oss.common.model.UserModel;
 import com.linyonghao.oss.common.service.ICoreBucketService;
+import com.linyonghao.oss.common.service.ICoreDomainService;
 import com.linyonghao.oss.common.service.ICoreObjectService;
+import com.linyonghao.oss.common.utils.DateUtil;
 import com.linyonghao.oss.manager.Constant.PageConstant;
 import com.linyonghao.oss.manager.annotation.OssCheckBucket;
+import com.linyonghao.oss.manager.dto.BucketStatistic;
+import com.linyonghao.oss.manager.entity.JSONResponse;
 import com.linyonghao.oss.manager.service.StatisticService;
+import com.linyonghao.oss.manager.utils.JSONResponseUtil;
 import com.linyonghao.oss.manager.utils.RegexValidateUtil;
 import com.linyonghao.oss.manager.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,6 +48,12 @@ public class SpaceController {
 
     @Autowired
     private ICoreObjectService coreObjectService;
+
+    @Autowired
+    private ICoreDomainService domainService;
+
+    @Autowired
+    SystemConfig systemConfig;
 
 
     /**
@@ -111,14 +125,30 @@ public class SpaceController {
         long getCount = coreBucketService.getThisMonthGETCount(bucketId);
         long postCount = coreBucketService.getThisMonthPOSTCount(bucketId);
 
+        List<CoreDomain> domainInfos = domainService.getByBucketID(bucketId);
+        UserModel userInfo = (UserModel) StpUtil.getSession().get("user_info");
+        for (CoreDomain domainInfo : domainInfos) {
+            domainInfo.setCNAME(String.format("%s-%s.%s",bucketId,userInfo.getUsername() ,systemConfig.domain));
+        }
+
         HashMap<String, Object> model = new HashMap<>();
         model.put("object_num", Long.toString(objNum));
         model.put("object_size", Long.toString(objSize));
         model.put("get_count", Long.toString(getCount));
         model.put("post_count", Long.toString(postCount));
         model.put("bucket_info",bucketInfo);
+        model.put("domain_infos",domainInfos);
 
         return ResponseUtil.view("space/view",model);
+    }
+    @OssCheckBucket
+    @GetMapping("/{bucketId}/statistic")
+    @ResponseBody
+    public JSONResponse bucketStatistic(@PathVariable("bucketId") String bucketId){
+
+        BucketStatistic bucketStatistic = statisticService.getBeforeNDayBucketInfoLimitDay(bucketId, -6);
+        return JSONResponseUtil.success(bucketStatistic);
+
     }
 
 

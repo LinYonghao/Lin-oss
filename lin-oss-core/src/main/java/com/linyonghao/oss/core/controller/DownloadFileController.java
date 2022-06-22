@@ -39,6 +39,7 @@ public class DownloadFileController {
         String[] hostSplit = host.split("-");
         long bucketId = Long.parseLong(hostSplit[0]);
 
+        // 格式 {bucketId}-{username}
 
 
         // TODO 1.私有仓库 2.

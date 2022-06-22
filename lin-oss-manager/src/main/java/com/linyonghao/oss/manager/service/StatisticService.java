@@ -1,8 +1,11 @@
 package com.linyonghao.oss.manager.service;
 
 import com.linyonghao.influxdb2.entity.CountWithTime;
+import com.linyonghao.oss.common.model.StorageLog;
+import com.linyonghao.oss.manager.dto.BucketStatistic;
 import com.linyonghao.oss.manager.dto.SpaceInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public interface StatisticService {
@@ -49,6 +52,11 @@ public interface StatisticService {
      */
     List<SpaceInfo> getSpaceInfoById(String id);
 
+    /**
+     * 查询N天前的空间数据 存储量 API数量 对象数
+     * @return
+     */
+    BucketStatistic getBeforeNDayBucketInfoLimitDay(String bucketId, int days);
 
-
+    public List<CountWithTime> getStorage(String bucketId, Date startTime, Date endTime, String interval);
 }

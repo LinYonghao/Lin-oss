@@ -86,14 +86,17 @@ public class Query<T> {
         return this;
     }
 
-    public Query<T> aggregateWindow(String every, String fn, String column) {
+    public Query<T> aggregateWindow(String every, String fn,boolean createEmpty) {
         flux.append("|> aggregateWindow(every: ")
                 .append(every)
                 .append(", fn:")
-                .append(fn)
-                .append(" , column: \"")
-                .append(column)
-                .append("\")\n");
+                .append(fn);
+        if(createEmpty){
+            flux.append(" , createEmpty: true");
+        }else{
+            flux.append(" , createEmpty: false");
+        }
+            flux.append(")\n");
         return this;
     }
 
@@ -106,10 +109,11 @@ public class Query<T> {
         for (FluxTable fluxTable : query) {
             List<FluxRecord> records = fluxTable.getRecords();
             for (int i =0; i< records.size();i++) {
+                boolean emptyRecordFlag  = false;
                 FluxRecord record = records.get(i);
                 String field = (String) record.getValueByKey("_field");
                 if (field == null) {
-                    return null;
+                    emptyRecordFlag = true;
                 }
                 Object o;
                 try {
@@ -172,7 +176,9 @@ public class Query<T> {
             List<FluxRecord> records = fluxTable.getRecords();
             for (FluxRecord record : records) {
                 Object value = record.getValueByKey("_value");
-                if (value == null) continue;
+                if (value == null){
+                    value = 0L;
+                }
                 counts.add(new CountWithTime((Long) value, record.getStart().getLong(MICRO_OF_SECOND)));
             }
         }
@@ -193,7 +199,24 @@ public class Query<T> {
     }
 
     public String build() {
+        logger.info(flux.toString());
         return flux.toString();
     }
 
+    public List<CountWithTime> oneValue(){
+        String build = build();
+        List<FluxTable> query = InfluxdbGlobal.getInstance().getQueryApi().query(build);
+        List<CountWithTime> counts = new ArrayList<>();
+        for (FluxTable fluxTable : query) {
+            List<FluxRecord> records = fluxTable.getRecords();
+            for (FluxRecord record : records) {
+                Object value = record.getValueByKey("_value");
+                if (value == null){
+                    value = 0L;
+                }
+                counts.add(new CountWithTime((Long) value, record.getTime().getLong(MICRO_OF_SECOND)));
+            }
+        }
+        return counts;
+    }
 }

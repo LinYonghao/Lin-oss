@@ -12,4 +12,21 @@ public class DateUtil {
         instance.set(Calendar.SECOND,0);
         return instance.getTime();
     }
+
+    public static Date getNDayByToday(int days){
+        Calendar instance = Calendar.getInstance();
+        instance.add(Calendar.DATE, days);
+        instance.set(Calendar.HOUR_OF_DAY,0);
+        instance.set(Calendar.MINUTE,0);
+        instance.set(Calendar.SECOND,0);
+        return instance.getTime();
+    }
+
+    public static  Date getTodayStart(){
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.HOUR_OF_DAY,0);
+        instance.set(Calendar.MINUTE,0);
+        instance.set(Calendar.SECOND,0);
+        return instance.getTime();
+    }
 }

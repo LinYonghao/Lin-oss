@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linyonghao.influxdb2.entity.CountWithTime;
 import com.linyonghao.oss.common.dao.mapper.relationship.CoreBucketMapper;
 import com.linyonghao.oss.common.dao.mapper.sequential.APILogMapper;
+import com.linyonghao.oss.common.dto.CountAndSize;
 import com.linyonghao.oss.common.entity.CoreBucket;
 import com.linyonghao.oss.common.model.APILogModel;
 import com.linyonghao.oss.common.service.ICoreBucketService;
@@ -63,4 +64,17 @@ public class CoreBucketServiceImpl extends ServiceImpl<CoreBucketMapper, CoreBuc
         }
         return 0;
     }
+
+    @Override
+    public CountAndSize insertOneObj(String bucketID, long size) {
+        CoreBucket bucket = this.getBaseMapper().selectById(bucketID);
+        bucket.setAllSize(bucket.getAllSize() + size);
+        bucket.setObjNum(bucket.getObjNum() + 1);
+        this.getBaseMapper().updateById(bucket);
+
+        return new CountAndSize(bucket.getObjNum(),bucket.getAllSize());
+    }
+
+
+
 }

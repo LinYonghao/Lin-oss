@@ -38,6 +38,9 @@ public class CoreObjectServiceImpl extends ServiceImpl<CoreObjectMapper, CoreObj
     @Override
     public long[] getObjectNumAndSizeSumByBucket(String userId, String bucketId) {
         Map<String, Object> resultMap = this.getBaseMapper().selectObjectNumAndSizeSumByBucket(userId, bucketId);
+        if(resultMap.size() != 2){
+            return new long[]{0L,0L};
+        }
         String size = resultMap.get("size").toString();
         String count = resultMap.get("count").toString();
         return new long[]{Long.parseLong(count), Long.parseLong(size)};

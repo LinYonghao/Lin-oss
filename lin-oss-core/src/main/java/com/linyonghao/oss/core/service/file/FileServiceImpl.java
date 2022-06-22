@@ -65,10 +65,12 @@ public class FileServiceImpl implements FileService {
         coreObjectService.save(coreObject);
 
         if (uploadPolicy.getCallback() != null && !uploadPolicy.getCallback().isEmpty()) {
-            rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME, MQName.UPLOAD_CALLBACK, new UploadMessage(file, uploadPolicy, userModel, new Date()));
+            rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME, MQName.UPLOAD_CALLBACK,
+                    new UploadMessage(file, uploadPolicy, userModel, new Date(),bucket.getId()));
         }
 
-        rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME, MQName.UPLOAD_LOG, new UploadMessage(file, uploadPolicy, userModel, new Date()));
+        rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME, MQName.UPLOAD_LOG,
+                new UploadMessage(file, uploadPolicy, userModel, new Date(),bucket.getId()));
         return ret;
     }
 

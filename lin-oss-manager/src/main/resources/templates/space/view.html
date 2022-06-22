@@ -66,7 +66,47 @@
                             </div>
                             <div class="col-xs-8 text-right">
                                 <span> 域名 </span>
-                                <h2 class="font-bold">12</h2>
+                                <h2 class="font-bold" th:text="${domain_infos.size()}"></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ibox-title">
+                    <h5>域名加速</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>域名</th>
+                                    <th>CNAME</th>
+                                    <th>状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item,r:${domain_infos}">
+                                    <td th:text="${r.index + 1}">1</td>
+                                    <td th:text="${item.domain}"></td>
+                                    <td th:text="${item.CNAME}"></td>
+                                    <td th:if="${item.status == 0}">
+                                        <span class="label label-warming">待解析</span>
+                                    </td>
+                                    <td th:if="${item.status == 1}">
+                                        <span class="label label-success">解析成功</span>
+                                    </td>
+                                    <td th:if="${item.status == 2}">
+                                        <span class="label label-danger">解析异常</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <button type="button" class="col-sm-12 btn btn-outline btn-default">添加域名</button>
                             </div>
                         </div>
                     </div>

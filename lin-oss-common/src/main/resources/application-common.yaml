@@ -53,3 +53,5 @@ pagehelper:
   pageSizeZero: true
   params:
     count: countSql
+system:
+  domain: linyonghao.com
