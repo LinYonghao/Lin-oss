@@ -100,6 +100,7 @@ public class Query<T> {
         return this;
     }
 
+    @Deprecated // TODO: 该方法存在问题 慎用
     public List<T> all() {
         List<FluxTable> query = InfluxdbGlobal.getInstance().getQueryApi().query(build());
         if (query.size() <= 0) {
@@ -179,7 +180,7 @@ public class Query<T> {
                 if (value == null){
                     value = 0L;
                 }
-                counts.add(new CountWithTime((Long) value, record.getStart().getLong(MICRO_OF_SECOND)));
+                counts.add(new CountWithTime((Long) value, record.getStart().getEpochSecond()));
             }
         }
         return counts;
@@ -214,8 +215,14 @@ public class Query<T> {
                 if (value == null){
                     value = 0L;
                 }
-                counts.add(new CountWithTime((Long) value, record.getTime().getLong(MICRO_OF_SECOND)));
+                assert record.getTime() != null;
+                long epochSecond = record.getTime().getEpochSecond();
+                if(epochSecond == 0){
+                    epochSecond = record.getStart().getEpochSecond();
+                }
+                counts.add(new CountWithTime((Long) value,epochSecond));
             }
+
         }
         return counts;
     }

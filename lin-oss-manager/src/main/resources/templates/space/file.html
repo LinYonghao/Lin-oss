@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <th:block th:replace="common/css :: css"/>
+    <title>文件管理</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="file-manager">
+                        <button class="btn btn-primary btn-block">上传文件</button>
+                        <div class="hr-line-dashed"></div>
+                        <h5>文件夹</h5>
+                        <ul class="folder-list" style="padding: 0">
+                            <li><a href="file.html"><i class="fa fa-folder"></i> 文件</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9 animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="file-box" th:each="item,status:${file_list.list}">
+                        <div class="file" >
+                            <a href="file.html#">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name" th:text="${item.remoteKey}">
+                                    Document_2014.doc
+                                    <br/>
+                                    <small th:text="${#dates.format(item.createTime, 'yyyy/MM/dd')}">添加时间：2014-10-13</small>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <th:block th:with="page = ${file_list}">
+                    <th:block th:replace="common/pagination :: Paginition('/space/'+${bucket_id}+'/file')">
+                    </th:block>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="common/js :: js"/>
+</body>
+</html>

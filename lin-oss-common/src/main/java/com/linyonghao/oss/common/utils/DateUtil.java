@@ -29,4 +29,11 @@ public class DateUtil {
         instance.set(Calendar.SECOND,0);
         return instance.getTime();
     }
+    public static  Date getNextDayStart(){
+        Calendar instance = Calendar.getInstance();
+        instance.add(Calendar.DATE,1);
+        instance.set(Calendar.MINUTE,0);
+        instance.set(Calendar.SECOND,0);
+        return instance.getTime();
+    }
 }

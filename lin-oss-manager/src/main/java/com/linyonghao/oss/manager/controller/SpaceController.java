@@ -12,11 +12,13 @@ import com.linyonghao.oss.common.dao.mapper.relationship.CoreBucketMapper;
 import com.linyonghao.oss.common.dao.mapper.sequential.DownloadLogMapper;
 import com.linyonghao.oss.common.entity.CoreBucket;
 import com.linyonghao.oss.common.entity.CoreDomain;
+import com.linyonghao.oss.common.entity.CoreObject;
 import com.linyonghao.oss.common.model.UserModel;
 import com.linyonghao.oss.common.service.ICoreBucketService;
 import com.linyonghao.oss.common.service.ICoreDomainService;
 import com.linyonghao.oss.common.service.ICoreObjectService;
 import com.linyonghao.oss.common.utils.DateUtil;
+import com.linyonghao.oss.common.utils.StringUtil;
 import com.linyonghao.oss.manager.Constant.PageConstant;
 import com.linyonghao.oss.manager.annotation.OssCheckBucket;
 import com.linyonghao.oss.manager.dto.BucketStatistic;
@@ -133,7 +135,7 @@ public class SpaceController {
 
         HashMap<String, Object> model = new HashMap<>();
         model.put("object_num", Long.toString(objNum));
-        model.put("object_size", Long.toString(objSize));
+        model.put("object_size", StringUtil.formatByteSize(objSize));
         model.put("get_count", Long.toString(getCount));
         model.put("post_count", Long.toString(postCount));
         model.put("bucket_info",bucketInfo);
@@ -142,13 +144,31 @@ public class SpaceController {
         return ResponseUtil.view("space/view",model);
     }
     @OssCheckBucket
-    @GetMapping("/{bucketId}/statistic")
+    @GetMapping("/{bucketId}/api/statistic")
     @ResponseBody
     public JSONResponse bucketStatistic(@PathVariable("bucketId") String bucketId){
-
         BucketStatistic bucketStatistic = statisticService.getBeforeNDayBucketInfoLimitDay(bucketId, -6);
         return JSONResponseUtil.success(bucketStatistic);
+    }
 
+    @OssCheckBucket
+    @GetMapping("/{bucketId}/file")
+    public ModelAndView bucketFileGET(@PathVariable("bucketId") String bucketId,Integer page){
+        if(page == null){
+            page = 1;
+        }
+        PageHelper.startPage(page,PageConstant.EVERY_PAGE_NUM);
+        QueryWrapper<CoreBucket> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",StpUtil.getLoginId());
+        List<CoreObject> coreObjects = coreObjectService.getObjectByBucketId(bucketId);
+
+        HashMap<String, Object> model = new HashMap<>();
+        PageInfo<CoreObject> coreObjectPageInfo = new PageInfo<>(coreObjects);
+        model.put("file_list",coreObjectPageInfo);
+        model.put("bucket_id",bucketId);
+
+
+        return ResponseUtil.view("/space/file",model);
     }
 
 

@@ -43,9 +43,6 @@ public class UploadReceiver {
 
     @RabbitListener(queues = MQName.UPLOAD_LOG)
     public void uploadLogHandler(UploadMessage uploadMessage) {
-        // 查bucket数据
-
-
         // 文件上传记录
         fileOperationLogService.logUpload(uploadMessage);
         // API记录
@@ -55,6 +52,7 @@ public class UploadReceiver {
         apiLogModel.setType(APILogModel.UPLOAD);
         apiLogModel.setTime(uploadMessage.getTime().getTime());
         apiLogModel.setBucketId(uploadMessage.getBucketId());
+        logger.info(String.valueOf(apiLogModel.getBucketId()));
         apiLogService.logOne(apiLogModel);
         // 空间大小设置
         CountAndSize countAndSize = coreBucketService.insertOneObj(String.valueOf(uploadMessage.getBucketId()),

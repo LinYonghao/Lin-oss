@@ -1,6 +1,7 @@
 package com.linyonghao.oss.common.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linyonghao.influxdb2.entity.CountWithTime;
 import com.linyonghao.oss.common.dao.mapper.relationship.CoreObjectMapper;
@@ -46,7 +47,12 @@ public class CoreObjectServiceImpl extends ServiceImpl<CoreObjectMapper, CoreObj
         return new long[]{Long.parseLong(count), Long.parseLong(size)};
     }
 
-
+    @Override
+    public List<CoreObject> getObjectByBucketId(String bucketId) {
+        QueryWrapper<CoreObject> wrapper = new QueryWrapper<>();
+        wrapper.eq("bucket_id",bucketId);
+        return this.getBaseMapper().selectList(wrapper);
+    }
 
 
 }

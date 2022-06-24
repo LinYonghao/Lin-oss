@@ -132,7 +132,7 @@ public class StatisticServiceImpl implements StatisticService {
          */
         Date startDate = DateUtil.getNDayByToday(days);
         String interval = "1d";
-        Date endDate =new Date();
+        Date endDate =DateUtil.getNextDayStart();
         BucketStatistic bucketStatistic = new BucketStatistic();
         bucketStatistic.setStorage(this.getStorage(bucketId, startDate, endDate, interval));
         bucketStatistic.setGet(this.getGETCount(bucketId,startDate,endDate,interval));

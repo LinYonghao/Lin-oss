@@ -1,5 +1,5 @@
 package com.linyonghao.oss.manager.Constant;
 
 public class PageConstant {
-    public static final int EVERY_PAGE_NUM = 2;
+    public static final int EVERY_PAGE_NUM = 20;
 }

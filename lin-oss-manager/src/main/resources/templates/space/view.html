@@ -112,9 +112,29 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="storage" style="height:217px;"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="objNum" style="height:217px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="post" style="height:217px;"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="get" style="height:217px;"></div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 <th:block th:replace="common/js :: js"/>
+<th:block th:replace="common/js :: echarts"/>
+<script src="/js/bucket/view.js"></script>
 </body>
 </html>
