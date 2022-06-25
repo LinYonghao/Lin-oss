@@ -10,6 +10,7 @@ import com.linyonghao.influxdb2.entity.CountWithTime;
 import com.linyonghao.oss.common.config.SystemConfig;
 import com.linyonghao.oss.common.dao.mapper.relationship.CoreBucketMapper;
 import com.linyonghao.oss.common.dao.mapper.sequential.DownloadLogMapper;
+import com.linyonghao.oss.common.dto.TemporaryUpDownCacheInfo;
 import com.linyonghao.oss.common.entity.CoreBucket;
 import com.linyonghao.oss.common.entity.CoreDomain;
 import com.linyonghao.oss.common.entity.CoreObject;
@@ -17,6 +18,7 @@ import com.linyonghao.oss.common.model.UserModel;
 import com.linyonghao.oss.common.service.ICoreBucketService;
 import com.linyonghao.oss.common.service.ICoreDomainService;
 import com.linyonghao.oss.common.service.ICoreObjectService;
+import com.linyonghao.oss.common.service.TemporaryUpDownRedisService;
 import com.linyonghao.oss.common.utils.DateUtil;
 import com.linyonghao.oss.common.utils.StringUtil;
 import com.linyonghao.oss.manager.Constant.PageConstant;
@@ -37,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("space")
@@ -56,6 +59,9 @@ public class SpaceController {
 
     @Autowired
     SystemConfig systemConfig;
+
+    @Autowired
+    TemporaryUpDownRedisService temporaryUpDownRedisService;
 
 
     /**
@@ -167,9 +173,19 @@ public class SpaceController {
         model.put("file_list",coreObjectPageInfo);
         model.put("bucket_id",bucketId);
 
-
         return ResponseUtil.view("/space/file",model);
     }
+
+
+    @OssCheckBucket
+    @GetMapping("/{bucketId}/api/token")
+    @ResponseBody
+    public JSONResponse uploadInfo(@PathVariable("bucketId") String bucketId){
+        String token = UUID.randomUUID().toString().replace("-", "");
+        temporaryUpDownRedisService.set(new TemporaryUpDownCacheInfo(bucketId,token, systemConfig.temporaryUpDownExpired));
+        return JSONResponseUtil.success(token);
+    }
+
 
 
 }
