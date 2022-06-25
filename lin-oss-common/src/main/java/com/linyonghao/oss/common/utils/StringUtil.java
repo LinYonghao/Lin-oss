@@ -1,5 +1,7 @@
 package com.linyonghao.oss.common.utils;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -49,6 +51,17 @@ public class StringUtil {
             result = Long.toString(length) + "B";
 
         return result;
+    }
+
+    public static String generateRedisKey(String... args){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < args.length; i++) {
+            stringBuilder.append(args[i] );
+            if(i != args.length -1){
+                stringBuilder.append(":");
+            }
+        }
+        return stringBuilder.toString();
     }
 
     public static void main(String[] args) {

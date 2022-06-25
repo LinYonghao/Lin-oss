@@ -6,5 +6,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService extends IService<UserModel> {
-
+    UserModel getUser(String userId);
+    UserModel getByAccessKey(String accessKey);
 }

@@ -1,6 +1,7 @@
 package com.linyonghao.oss.common.service.impl;
 
 
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linyonghao.influxdb2.entity.CountWithTime;
@@ -11,11 +12,15 @@ import com.linyonghao.oss.common.entity.CoreBucket;
 import com.linyonghao.oss.common.model.APILogModel;
 import com.linyonghao.oss.common.service.ICoreBucketService;
 import com.linyonghao.oss.common.utils.DateUtil;
+import com.linyonghao.oss.common.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -29,6 +34,17 @@ import java.util.List;
 public class CoreBucketServiceImpl extends ServiceImpl<CoreBucketMapper, CoreBucket> implements ICoreBucketService {
     @Autowired
     private APILogMapper apiLogMapper;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Value("${redis.key.bucket.id}")
+    private String BUCKET_ID_KEY;
+
+    @Value("${redis.expired}")
+    private Integer EXPIRED;
+    @Value("${redis.database}")
+    private String REDIS_DATABASE;
 
     @Override
     public boolean isBelongUser(String bucketId, String userId) {
@@ -63,6 +79,18 @@ public class CoreBucketServiceImpl extends ServiceImpl<CoreBucketMapper, CoreBuc
             return countWithTimes.get(0).getCount();
         }
         return 0;
+    }
+
+    @Override
+    public CoreBucket getById(String id) {
+        String s = redisTemplate.opsForValue().get(StringUtil.generateRedisKey(REDIS_DATABASE, BUCKET_ID_KEY, id));
+        if(s != null){
+            return JSON.parseObject(s,CoreBucket.class);
+        }
+        CoreBucket bucket = this.getBaseMapper().selectById(id);
+        redisTemplate.opsForValue().set(StringUtil.generateRedisKey(REDIS_DATABASE, BUCKET_ID_KEY, id)
+                ,JSON.toJSONString(bucket),EXPIRED, TimeUnit.SECONDS);
+        return bucket;
     }
 
     @Override

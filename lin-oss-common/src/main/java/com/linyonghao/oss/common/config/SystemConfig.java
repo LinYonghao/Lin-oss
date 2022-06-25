@@ -10,7 +10,7 @@ public class SystemConfig {
     @Value("${system.domain}")
     public String domain;
 
-    @Value("60000")
+    @Value("600000")
     public int temporaryUpDownExpired;
 
 

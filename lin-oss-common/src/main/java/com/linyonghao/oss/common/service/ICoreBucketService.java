@@ -17,6 +17,8 @@ public interface ICoreBucketService extends IService<CoreBucket> {
     public long getThisMonthGETCount(String bucketId);
     public long getThisMonthPOSTCount(String bucketId);
 
+    CoreBucket getById(String id);
+
 
     CountAndSize insertOneObj(String bucketID, long size);
 }

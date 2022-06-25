@@ -40,6 +40,9 @@ redis:
     user:
       accessKey: core:user:accessKey
       userId: core:user:userId
+    bucket:
+      id: core:bucket:id
+  expired: 3600
 
 logging:
   level:

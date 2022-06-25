@@ -3,13 +3,9 @@ package com.linyonghao.oss.manager.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.linyonghao.influxdb2.entity.CountWithTime;
 import com.linyonghao.oss.common.config.SystemConfig;
-import com.linyonghao.oss.common.dao.mapper.relationship.CoreBucketMapper;
-import com.linyonghao.oss.common.dao.mapper.sequential.DownloadLogMapper;
 import com.linyonghao.oss.common.dto.TemporaryUpDownCacheInfo;
 import com.linyonghao.oss.common.entity.CoreBucket;
 import com.linyonghao.oss.common.entity.CoreDomain;
@@ -18,8 +14,7 @@ import com.linyonghao.oss.common.model.UserModel;
 import com.linyonghao.oss.common.service.ICoreBucketService;
 import com.linyonghao.oss.common.service.ICoreDomainService;
 import com.linyonghao.oss.common.service.ICoreObjectService;
-import com.linyonghao.oss.common.service.TemporaryUpDownRedisService;
-import com.linyonghao.oss.common.utils.DateUtil;
+import com.linyonghao.oss.common.service.impl.TemporaryUpDownRedisService;
 import com.linyonghao.oss.common.utils.StringUtil;
 import com.linyonghao.oss.manager.Constant.PageConstant;
 import com.linyonghao.oss.manager.annotation.OssCheckBucket;
@@ -31,12 +26,10 @@ import com.linyonghao.oss.manager.utils.RegexValidateUtil;
 import com.linyonghao.oss.manager.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -182,7 +175,8 @@ public class SpaceController {
     @ResponseBody
     public JSONResponse uploadInfo(@PathVariable("bucketId") String bucketId){
         String token = UUID.randomUUID().toString().replace("-", "");
-        temporaryUpDownRedisService.set(new TemporaryUpDownCacheInfo(bucketId,token, systemConfig.temporaryUpDownExpired));
+        temporaryUpDownRedisService.set(new TemporaryUpDownCacheInfo(bucketId,token,StpUtil.getLoginId().toString(),
+                systemConfig.temporaryUpDownExpired));
         return JSONResponseUtil.success(token);
     }
 

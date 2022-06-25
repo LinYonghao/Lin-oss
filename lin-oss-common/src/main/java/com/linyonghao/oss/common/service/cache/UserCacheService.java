@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -34,7 +35,7 @@ public class UserCacheService extends CommonCache<UserModel> {
     @Value("${redis.database}")
     private String DATABASE;
     @Autowired
-    private RedisTemplate<Object,Object> redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
 
     Logger logger = LoggerFactory.getLogger(UserCacheService.class);
@@ -44,7 +45,7 @@ public class UserCacheService extends CommonCache<UserModel> {
     }
 
     public UserModel getUser(long userId){
-        String json = (String) redisTemplate.opsForValue().get(generateKey(DATABASE, ACCESS_KEY, String.valueOf(userId)));
+        String json = (String) redisTemplate.opsForValue().get(generateKey(DATABASE, USER_ID, String.valueOf(userId)));
         incrementAccessNum();
         if(json == null){
             return null;
@@ -56,13 +57,13 @@ public class UserCacheService extends CommonCache<UserModel> {
 
     public UserModel getUser(String accessKey){
         incrementAccessNum();
-        UserModel userModel = (UserModel) redisTemplate.opsForValue().get(generateKey(DATABASE, ACCESS_KEY, String.valueOf(accessKey)));
-        if(userModel == null){
+        String json =  redisTemplate.opsForValue().get(generateKey(DATABASE, ACCESS_KEY, String.valueOf(accessKey)));
+        if(json == null){
             return null;
         }
         incrementHitNumber();
         logger.info("缓存命中率:" + getHitRate());
-        return userModel;
+        return JSON.parseObject(json,UserModel.class);
     }
 
     public void setUserAccessKey(UserModel userModel){
@@ -70,7 +71,15 @@ public class UserCacheService extends CommonCache<UserModel> {
             throw new IllegalArgumentException("Access key 不能为空");
         }
         String key = generateKey(DATABASE, ACCESS_KEY, String.valueOf(userModel.getAccessKey()));
-        redisTemplate.opsForValue().set(key,userModel);
+        redisTemplate.opsForValue().set(key, JSON.toJSONString(userModel));
+    }
+
+    public void setUserById(UserModel userModel){
+        if(userModel == null || userModel.getAccessKey().isEmpty()){
+            throw new IllegalArgumentException("Id 不能为空");
+        }
+        String key = generateKey(DATABASE, USER_ID, String.valueOf(userModel.getId()));
+        redisTemplate.opsForValue().set(key,JSON.toJSONString(userModel));
     }
 
     public Boolean delUserByUserId(long userId){
@@ -81,13 +90,14 @@ public class UserCacheService extends CommonCache<UserModel> {
         return redisTemplate.delete(generateKey(DATABASE, ACCESS_KEY, String.valueOf(accessKey)));
     }
 
+
     public Boolean clearAllAccessKey() throws DeleteRedisException{
         String keyPattern = generateKey(DATABASE,ACCESS_KEY,"*");
-        Set<Object> keys = redisTemplate.keys(keyPattern);
+        Set<String> keys = redisTemplate.keys(keyPattern);
         if(keys == null || keys.isEmpty()){
             return true;
         }
-        for (Object key : keys) {
+        for (String key : keys) {
             boolean isDelete = Boolean.TRUE.equals(redisTemplate.delete(key));
             if(!isDelete){
                 throw new DeleteRedisException("key:" + key + "can not delete");

@@ -1,8 +1,10 @@
-package com.linyonghao.oss.common.service;
+package com.linyonghao.oss.common.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.linyonghao.oss.common.service.cache.CommonCache;
 import com.linyonghao.oss.common.dto.TemporaryUpDownCacheInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -13,11 +15,13 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class TemporaryUpDownRedisService extends CommonCache<TemporaryUpDownCacheInfo> {
 
+    Logger logger = LoggerFactory.getLogger(TemporaryUpDownRedisService.class);
     @Autowired
     StringRedisTemplate redisTemplate;
 
     public TemporaryUpDownCacheInfo get(String token) {
-        String obj = redisTemplate.opsForValue().get(generateKey("upload_token", token));
+        String key = generateKey("temporary_token", token);
+        String obj = redisTemplate.opsForValue().get(key);
         if(obj == null){
             return null;
         }
@@ -26,8 +30,9 @@ public class TemporaryUpDownRedisService extends CommonCache<TemporaryUpDownCach
     }
 
     public void set(TemporaryUpDownCacheInfo uploadCacheInfo){
+        String s = JSON.toJSONString(uploadCacheInfo);
         redisTemplate.opsForValue().set(generateKey("temporary_token",uploadCacheInfo.getToken()),
-                JSON.toJSONString(uploadCacheInfo),uploadCacheInfo.getExpireTimeMS(), TimeUnit.MILLISECONDS);
+                s,uploadCacheInfo.getExpireTimeMS(), TimeUnit.MILLISECONDS);
     }
 
 }
