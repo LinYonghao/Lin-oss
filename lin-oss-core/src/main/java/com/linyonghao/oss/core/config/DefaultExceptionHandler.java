@@ -20,6 +20,7 @@ public class DefaultExceptionHandler {
     public HttpJSONResponse defaultException(HttpServletResponse httpServletResponse, Exception e){
         String profile = SpringContextUtil.getProfile();
         logger.error(e.getMessage());
+        e.printStackTrace();
         if(profile.equals(Environment.DEVELOPMENT)) {
             return HttpJsonResult.fail(e.getMessage());
         }

@@ -21,8 +21,10 @@ public class UploadInterceptorValidator {
 
         }
 
-        if(request.getHeader(CommonConstant.AUTHENTICATION_HEADER).isEmpty()){
-            throw new HttpResponseException("缺少授权头 Authentication");
+        if(request.getHeader(CommonConstant.AUTHENTICATION_HEADER) == null){
+            if(request.getHeader(CommonConstant.TOKEN_NAME) == null){
+                throw new HttpResponseException("缺少授权头 Authentication 或Token");
+            }
         }
 
     }

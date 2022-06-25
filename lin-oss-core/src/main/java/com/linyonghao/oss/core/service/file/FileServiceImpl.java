@@ -18,6 +18,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.activation.MimetypesFileTypeMap;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 
 @Service
@@ -57,6 +61,15 @@ public class FileServiceImpl implements FileService {
         CoreObject coreObject = new CoreObject();
         coreObject.setBucketId(bucket.getId());
         coreObject.setRemoteKey(uploadPolicy.getKey());
+        // 若无mine自动获取
+        if(uploadPolicy.getMINE() == null){
+            try {
+                String minetype = Files.probeContentType(new File(file.getAbsolutePath()).toPath());
+                uploadPolicy.setMINE(minetype);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         coreObject.setMine(uploadPolicy.getMINE());
         coreObject.setLocalKey(ret);
         coreObject.setCreateTime(new Date());

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.linyonghao.oss.common.model.UploadPolicy;
 import com.linyonghao.oss.common.model.UserModel;
+import com.linyonghao.oss.common.service.UserService;
 import com.linyonghao.oss.common.service.cache.UserCacheService;
 import com.linyonghao.oss.core.dto.UploadCertificationDTO;
 import com.linyonghao.oss.common.dao.mapper.relationship.UserMapper;
@@ -30,15 +31,15 @@ import java.util.List;
  * 4.拼接  AccessKey + ':' + encodedSign + ':' + encodedPutPolicy
  */
 @Service
-public class UploadAuthenticator {
-    Logger logger = LoggerFactory.getLogger(UploadAuthenticator.class);
+public class UploadAuthenticatorService {
+    Logger logger = LoggerFactory.getLogger(UploadAuthenticatorService.class);
 
 
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
-    private UserCacheService userCacheService;
+    private UserService userService;
 
     /**
      * 生成上传凭证
@@ -113,21 +114,7 @@ public class UploadAuthenticator {
         }
 
         // 查缓存
-        UserModel userModel = userCacheService.getUser(accessKey);
-        if(userModel == null){
-            // 查库
-            UserModel queryModel = new UserModel();
-            queryModel.setAccessKey(accessKey);
-            QueryWrapper<UserModel> userModelQueryWrapper = new QueryWrapper<>(queryModel);
-            List<UserModel> userModels = userMapper.selectList(userModelQueryWrapper);
-            if(userModels== null){
-                throw new NotfoundUserModelException("找不到该用户");
-            }
-            userModel = userModels.get(0);
-            // 写redis
-            userCacheService.setUserAccessKey(userModel);
-        }
-
+        UserModel userModel = userService.getByAccessKey(accessKey);
 
         // 校验
         String withAccessKey = String.format("%s-%s", encodedPolicy, userModel.getSecretKey());

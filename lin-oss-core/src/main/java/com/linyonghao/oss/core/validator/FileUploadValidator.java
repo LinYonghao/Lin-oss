@@ -25,7 +25,7 @@ public class FileUploadValidator implements Validate {
     public boolean validate() {
         // 是否超时
         long deadline = uploadPolicy.getDeadline();
-        if(deadline > System.currentTimeMillis() / 1000){
+        if(deadline < System.currentTimeMillis() / 1000){
             errMsg = "上传凭证超时";
             return false;
         }

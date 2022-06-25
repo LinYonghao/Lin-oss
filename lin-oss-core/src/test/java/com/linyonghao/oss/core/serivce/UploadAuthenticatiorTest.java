@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class UploadAuthenticatiorTest {
 
     @Autowired
-    private UploadAuthenticator uploadAuthenticator;
+    private UploadAuthenticatorService uploadAuthenticator;
 
     @Test
     public void generateUploadPolicy(){
