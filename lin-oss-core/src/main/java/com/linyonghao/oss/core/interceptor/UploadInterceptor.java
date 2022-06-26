@@ -59,6 +59,9 @@ public class UploadInterceptor implements HandlerInterceptor {
                 }else{
                     // 管理端临时授权
                     TemporaryUpDownCacheInfo cacheInfo = temporaryUpDownRedisService.get(request.getHeader(CommonConstant.TOKEN_NAME));
+                    if(cacheInfo == null){
+                        throw new HttpResponseException("Token失效");
+                    }
                     String userId = cacheInfo.getUserId();
                     UserModel user = userService.getUser(userId);
                     request.setAttribute("userModel",user);

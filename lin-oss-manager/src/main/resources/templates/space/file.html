@@ -17,9 +17,26 @@
                     <div class="file-manager">
                         <button class="btn btn-primary btn-block">上传文件</button>
                         <div class="hr-line-dashed"></div>
+                        <ol class="breadcrumb">
+
+                            <li>
+                                <a th:href="${'/space/'+bucket_id+'/file'}">/</a>
+                            </li>
+
+                            <li th:each="dir,status:${#strings.arraySplit(current_dir,'/')}">
+                                <a th:href="${'/space/'+bucket_id+'/file' +dirNames[status.index] + dir}"
+                                   th:text="${dir}"></a>
+                            </li>
+                        </ol>
                         <h5>文件夹</h5>
                         <ul class="folder-list" style="padding: 0">
-                            <li><a href="file.html"><i class="fa fa-folder"></i> 文件</a>
+                            <li th:each="dir,status:${dirs}">
+                                <a th:href="${'/space/'+bucket_id+'/file' + current_dir +'/' + dir}">
+                                    <i class="fa fa-folder">
+
+                                    </i>
+                                    [[${dir}]]
+                                </a>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
@@ -30,13 +47,17 @@
         <div class="col-sm-9 animated fadeInRight">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="file-box" th:each="item,status:${file_list.list}">
-                        <div class="file" >
+                    <div class="file-box" th:each="item,status:${file_list?.list}">
+                        <div class="file">
                             <a href="file.html#">
                                 <span class="corner"></span>
 
-                                <div class="icon">
+                                <div class="icon" th:if="${!#strings.startsWith(item.mine,'image')}">
                                     <i class="fa fa-file"></i>
+                                </div>
+                                <div class="image" th:if="${#strings.startsWith(item.mine,'image')}">
+                                    <img alt="image" class="img-responsive"
+                                         th:src="${base_url + item.remoteKey + '?Token=' + token}">
                                 </div>
                                 <div class="file-name" th:text="${item.remoteKey}">
                                     Document_2014.doc
@@ -48,7 +69,7 @@
 
                     </div>
                 </div>
-                <th:block th:with="page = ${file_list}">
+                <th:block th:if="${file_list}" th:with="page = ${file_list}">
                     <th:block th:replace="common/pagination :: Paginition('/space/'+${bucket_id}+'/file')">
                     </th:block>
                 </th:block>
@@ -57,5 +78,6 @@
     </div>
 </div>
 <th:block th:replace="common/js :: js"/>
+
 </body>
 </html>

@@ -49,6 +49,7 @@ public class CoreObject implements Serializable {
 
     /**
      * 文件大小
+     *
      */
     private long size;
 

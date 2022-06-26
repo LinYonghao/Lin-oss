@@ -42,6 +42,7 @@ redis:
       userId: core:user:userId
     bucket:
       id: core:bucket:id
+      dir_tree: core:bucket:tree
   expired: 3600
 
 logging:
@@ -58,3 +59,5 @@ pagehelper:
     count: countSql
 system:
   domain: linyonghao.com
+  core:
+    base_url: ${CORE_BASE_URL:http://localhost:8080}

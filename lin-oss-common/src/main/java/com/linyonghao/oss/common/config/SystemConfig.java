@@ -13,5 +13,8 @@ public class SystemConfig {
     @Value("600000")
     public int temporaryUpDownExpired;
 
+    @Value("${system.core.base_url}")
+    public String baseUrl;
+
 
 }

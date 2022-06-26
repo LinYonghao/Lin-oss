@@ -99,7 +99,6 @@ public class CoreBucketServiceImpl extends ServiceImpl<CoreBucketMapper, CoreBuc
         bucket.setAllSize(bucket.getAllSize() + size);
         bucket.setObjNum(bucket.getObjNum() + 1);
         this.getBaseMapper().updateById(bucket);
-
         return new CountAndSize(bucket.getObjNum(),bucket.getAllSize());
     }
 

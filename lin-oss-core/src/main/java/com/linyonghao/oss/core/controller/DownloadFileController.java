@@ -43,8 +43,7 @@ public class DownloadFileController {
         Long bucketId =null;
         if(hostSplit.length !=2  || host.isEmpty()){
             // 临时权限
-            String token = request.getHeader("Token");
-            System.out.println("token = " + token);
+            String token = request.getParameter("Token");
             if(!StringUtils.hasLength(token)){
                 return HttpJsonResult.fail("找不到指定的bucket");
             }
