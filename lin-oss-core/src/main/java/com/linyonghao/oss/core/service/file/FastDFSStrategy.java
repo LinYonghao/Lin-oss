@@ -54,7 +54,7 @@ public class FastDFSStrategy implements FileStrategy {
                 throw new FileUploadException("上传失败");
             }
 
-            return result[0] + "-" + result[1];
+            return result[0] + "@" + result[1];
         } catch (IOException | MyException e) {
             e.printStackTrace();
             logger.error("上传文件失败" + e.getMessage());
@@ -65,7 +65,7 @@ public class FastDFSStrategy implements FileStrategy {
 
     @Override
     public byte[] downloadFile(String fileKey) throws FileDownloadException {
-        String[] split = fileKey.split("-");
+        String[] split = fileKey.split("@");
         if (split.length != 2){
             throw new IllegalArgumentException("不符合FastDFS的fileKey");
         }

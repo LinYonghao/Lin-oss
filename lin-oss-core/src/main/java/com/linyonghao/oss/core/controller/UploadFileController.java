@@ -55,7 +55,6 @@ public class UploadFileController {
         OSSFile.setExt(fileExt);
         OSSFile.setAbsolutePath(filename.getPath());
         OSSFile.setSize(file.getSize());
-
         String fileRemoteKey;
         try {
             fileRemoteKey = fileService.uploadFile(OSSFile,uploadPolicy,userModel);

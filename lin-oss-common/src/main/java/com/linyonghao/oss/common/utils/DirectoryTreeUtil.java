@@ -18,34 +18,36 @@ public class DirectoryTreeUtil {
 
     Map<String, DirectoryTree> tree = new ConcurrentHashMap<>();
 
+    public void resolveOne(CoreObject obj){
+        String[] dirs = obj.getRemoteKey().split("/");
+        // 根目录文件
+        if (dirs.length == 1) {
+            DirectoryTree directoryTree = tree.get("/");
+            if (directoryTree == null) {
+                directoryTree = new DirectoryTree();
+                tree.put("/", directoryTree);
+            }
+            directoryTree.addFile(obj);
+            return;
+
+        }
+        // 非根目录文件
+        String currentDir = "/";
+        DirectoryTree currentDirTree = getOrCreateRootDir();
+        for (int i = 0; i < dirs.length; i++) {
+            if (i != dirs.length - 1) {
+                String lastDir = currentDir.equals("/") ? "/" : currentDir.substring(0, currentDir.length() - 1);
+                currentDirTree = addDirectory(lastDir, currentDir + dirs[i]);
+                currentDir += dirs[i] + "/";
+            } else {
+                currentDirTree.addFile(obj);
+            }
+        }
+    }
+
     public Map<String, DirectoryTree> resolve(List<CoreObject> objectList) {
         for (CoreObject obj : objectList) {
-            String[] dirs = obj.getRemoteKey().split("/");
-            // 根目录文件
-            if (dirs.length == 1) {
-                DirectoryTree directoryTree = tree.get("/");
-                if (directoryTree == null) {
-                    directoryTree = new DirectoryTree();
-                    tree.put("/", directoryTree);
-                }
-                directoryTree.addFile(obj);
-                continue;
-
-            }
-            // 非根目录文件
-            String currentDir = "/";
-            DirectoryTree currentDirTree = getOrCreateRootDir();
-            for (int i = 0; i < dirs.length; i++) {
-                if (i != dirs.length - 1) {
-                    String lastDir = currentDir.equals("/") ? "/" : currentDir.substring(0, currentDir.length() - 1);
-                    currentDirTree = addDirectory(lastDir, currentDir + dirs[i]);
-                    currentDir += dirs[i] + "/";
-                } else {
-                    currentDirTree.addFile(obj);
-                }
-            }
-
-
+            resolveOne(obj);
         }
         return tree;
     }
@@ -71,7 +73,11 @@ public class DirectoryTreeUtil {
         return rootDir;
     }
 
-
+    public Map<String, DirectoryTree> addFile(CoreObject object,Map<String, DirectoryTree> tree){
+        this.tree = tree;
+        resolveOne(object);
+        return tree;
+    }
 }
 
 

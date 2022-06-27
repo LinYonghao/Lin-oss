@@ -24,5 +24,6 @@ public interface ICoreObjectService extends IService<CoreObject> {
 
     Map<String, DirectoryTree> getDirectoryTree(String bucketID);
 
+    Map<String,DirectoryTree> addFile(CoreObject coreObject);
 
 }

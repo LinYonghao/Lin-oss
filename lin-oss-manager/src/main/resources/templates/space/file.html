@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <th:block th:replace="common/css :: css"/>
+    <link href="/js/plugins/webuploader/webuploader.css" rel="stylesheet">
     <title>文件管理</title>
 </head>
 <body class="gray-bg">
@@ -15,7 +16,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <div class="file-manager">
-                        <button class="btn btn-primary btn-block">上传文件</button>
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#uploadModal">上传文件</button>
                         <div class="hr-line-dashed"></div>
                         <ol class="breadcrumb">
 
@@ -77,7 +78,41 @@
         </div>
     </div>
 </div>
-<th:block th:replace="common/js :: js"/>
+<!--文件上传模态框-->
+<div class="modal inmodal" id="uploadModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                </button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <h4 class="modal-title">上传文件</h4>
+            </div>
+            <div class="modal-body">
 
+                <div id="picker">选择文件</div>
+                <form role="form">
+                    <div class="form-group">
+                        <label>Key:</label>
+                        <input id="key" type="email" th:value="${current_dir}" class="form-control"/>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="upload">上传</button>
+                <div class="progress" style="margin-top: 20px">
+                    <div style="width: 0%" id="upload_progress" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class="progress-bar progress-bar-success">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="common/js :: js"/>
+<script src="/js/plugins/webuploader/webuploader.min.js"></script>
+<script src="/js/bucket/file.js"></script>
 </body>
 </html>

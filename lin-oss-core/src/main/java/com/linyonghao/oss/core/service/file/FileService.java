@@ -12,5 +12,5 @@ import com.linyonghao.oss.common.entity.OSSFile;
  */
 public interface FileService {
     String uploadFile(OSSFile file, UploadPolicy uploadPolicy, UserModel userModel) throws FileUploadException, NotFoundBucketException;
-    OSSFile downloadFile(long bucketId, String key, DownloadParams downloadParams, String clientIp) throws FileDownloadException;
+    OSSFile downloadFile(long bucketId, String key, DownloadParams downloadParams, String clientIp) throws FileDownloadException, NotfoundFileException;
 }

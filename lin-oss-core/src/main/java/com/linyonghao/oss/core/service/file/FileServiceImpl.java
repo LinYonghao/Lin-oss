@@ -75,7 +75,7 @@ public class FileServiceImpl implements FileService {
         coreObject.setCreateTime(new Date());
         coreObject.setSize(file.getSize());
         coreObject.setBucketId(bucket.getId());
-        coreObjectService.save(coreObject);
+        coreObjectService.addFile(coreObject);
 
         if (uploadPolicy.getCallback() != null && !uploadPolicy.getCallback().isEmpty()) {
             rabbitTemplate.convertAndSend(MQName.TOPIC_EXCHANGE_NAME, MQName.UPLOAD_CALLBACK,
@@ -88,8 +88,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public OSSFile downloadFile(long bucketId, String key, DownloadParams downloadParams, String clientIp) throws FileDownloadException {
+    public OSSFile downloadFile(long bucketId, String key, DownloadParams downloadParams, String clientIp) throws FileDownloadException, NotfoundFileException {
         ObjectBucketDO objectBucketDO = objectMapper.selectObjectByPath(bucketId, key);
+        if(objectBucketDO == null){
+            throw new NotfoundFileException("找不到该文件");
+        }
         OSSFile ossFile = new OSSFile();
         ossFile.setMine(objectBucketDO.getObjectModel().getMine());
         byte[] bin = fileStrategy.downloadFile(objectBucketDO.getObjectModel().getLocalKey());

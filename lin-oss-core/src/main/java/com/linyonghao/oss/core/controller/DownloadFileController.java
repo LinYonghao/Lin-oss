@@ -6,6 +6,7 @@ import com.linyonghao.oss.common.entity.OSSFile;
 import com.linyonghao.oss.common.service.impl.TemporaryUpDownRedisService;
 import com.linyonghao.oss.core.service.file.FileDownloadException;
 import com.linyonghao.oss.core.service.file.FileService;
+import com.linyonghao.oss.core.service.file.NotfoundFileException;
 import com.linyonghao.oss.core.util.HttpJsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,9 @@ public class DownloadFileController {
             return null;
         } catch (IOException | FileDownloadException e) {
             e.printStackTrace();
+        }catch (NotfoundFileException e){
+            e.printStackTrace();
+            return HttpJsonResult.fail("找不到文件");
         }
 
         return HttpJsonResult.fail("no object");

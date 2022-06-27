@@ -52,6 +52,8 @@ public class CoreObjectServiceImpl extends ServiceImpl<CoreObjectMapper, CoreObj
     private String DATABASE;
 
 
+
+
     /**
      * 获取某个bucket的对象数量和对象总存储量
      * @param userId
@@ -106,5 +108,14 @@ public class CoreObjectServiceImpl extends ServiceImpl<CoreObjectMapper, CoreObj
         return treeMap;
     }
 
-
+    @Override
+    public Map<String, DirectoryTree> addFile(CoreObject coreObject) {
+        this.save(coreObject);
+        // 添加文件采用动态添加 删除采用重建节点
+        Map<String, DirectoryTree> directoryTree = getDirectoryTree(coreObject.getBucketId().toString());
+        Map<String, DirectoryTree> treeMap = directoryTreeUtil.addFile(coreObject, directoryTree);
+        redisTemplate.opsForValue().set(StringUtil.generateRedisKey(DATABASE,BUCKET_DIR_TREE_KEY,coreObject.getBucketId().toString()),
+                JSON.toJSONString(treeMap));
+        return treeMap;
+    }
 }
