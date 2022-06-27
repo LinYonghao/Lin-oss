@@ -46,6 +46,11 @@ public class DirectoryTreeUtil {
     }
 
     public Map<String, DirectoryTree> resolve(List<CoreObject> objectList) {
+        tree.clear();
+        if(objectList.size() == 0){
+            // 没有数据时创建根目录
+            getOrCreateRootDir();
+        }
         for (CoreObject obj : objectList) {
             resolveOne(obj);
         }

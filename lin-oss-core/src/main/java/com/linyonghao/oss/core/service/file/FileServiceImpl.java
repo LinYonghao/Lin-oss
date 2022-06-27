@@ -14,6 +14,7 @@ import com.linyonghao.oss.common.dto.DownloadMessage;
 import com.linyonghao.oss.core.dto.UploadMessage;
 import com.linyonghao.oss.common.entity.DownloadParams;
 import com.linyonghao.oss.common.entity.OSSFile;
+import org.csource.common.MyException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,5 +112,12 @@ public class FileServiceImpl implements FileService {
                 ));
         ossFile.setBin(bin);
         return ossFile;
+    }
+
+    @Override
+    public boolean delete(String bucketId, String key) throws MyException, IOException {
+        CoreObject object = coreObjectService.getByKey(bucketId, key);
+        fileStrategy.deleteFile(object.getLocalKey());
+        return coreObjectService.removeOneObject(bucketId,key);
     }
 }

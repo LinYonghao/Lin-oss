@@ -66,6 +66,10 @@ public class DownloadFileController {
         try {
             OSSFile ossFile = fileService.downloadFile(bucketId,key, null,request.getRemoteHost());
             ServletOutputStream outputStream = response.getOutputStream();
+            String attachment = request.getParameter("attachment");
+            if(StringUtils.hasLength(attachment)){
+                response.setHeader("Content-Disposition","attachment; filename" + attachment);
+            }
             response.setHeader("Content-type",ossFile.getMine());
             outputStream.write(ossFile.getBin());
             outputStream.close();

@@ -23,6 +23,7 @@ import com.linyonghao.oss.manager.dto.BucketStatistic;
 import com.linyonghao.oss.manager.entity.JSONResponse;
 import com.linyonghao.oss.manager.service.StatisticService;
 import com.linyonghao.oss.manager.utils.JSONResponseUtil;
+import com.linyonghao.oss.manager.utils.PageHelperUtil;
 import com.linyonghao.oss.manager.utils.RegexValidateUtil;
 import com.linyonghao.oss.manager.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,8 +189,8 @@ public class SpaceController {
         }
         Map<String, Object> model = getFileList(page, bucketId, dir);
 
-        if ((Boolean) model.get("is_empty")) {
-            return ResponseUtil.error("/space/file", null, "找不到该目录");
+        if ( model.get("is_empty") == null || (Boolean) model.get("is_empty")) {
+            return ResponseUtil.error("/space/file", model, "找不到该目录");
         }
 
         return ResponseUtil.view("/space/file", model);
@@ -200,17 +201,19 @@ public class SpaceController {
             page = 1;
         }
 
-        PageHelper.startPage(page, PageConstant.EVERY_PAGE_NUM);
         DirectoryTree directoryTree;
         if (dir != null) {
             directoryTree = coreObjectService.getDirTreeByDir(String.format("/%s", dir), bucketId);
         } else {
             directoryTree = coreObjectService.getDirTreeByDir(null, bucketId);
         }
+        if(directoryTree == null){
+
+        }
 
 
         HashMap<String, Object> model = new HashMap<>();
-        PageInfo<CoreObject> coreObjectPageInfo = new PageInfo<>(directoryTree.getFiles());
+        PageInfo<CoreObject> coreObjectPageInfo = PageHelperUtil.getPageInfo(page, PageConstant.EVERY_PAGE_NUM, directoryTree.getFiles());
         String token = temporaryUpDownRedisService.generateOneKey(bucketId, StpUtil.getLoginId().toString());
         String currentDir =  dir == null ? "" : "/" + dir;
         ArrayList<String>  dirNames = new ArrayList<>();

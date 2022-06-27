@@ -93,13 +93,10 @@ public class CoreObjectServiceImpl extends ServiceImpl<CoreObjectMapper, CoreObj
             wrapper.eq("bucket_id",bucketId);
             objectList = this.getBaseMapper().selectList(wrapper);
 
-            if (objectList.size() > 0) {
-                treeMap = directoryTreeUtil.resolve(objectList);
-                redisTemplate.opsForValue().set(StringUtil.generateRedisKey(DATABASE,BUCKET_DIR_TREE_KEY,bucketId),
-                        JSON.toJSONString(treeMap));
-                return treeMap;
-            }
-            treeMap = new HashMap<>();
+            treeMap = directoryTreeUtil.resolve(objectList);
+            redisTemplate.opsForValue().set(StringUtil.generateRedisKey(DATABASE,BUCKET_DIR_TREE_KEY,bucketId),
+                    JSON.toJSONString(treeMap));
+            return treeMap;
 
         }else{
             TypeReference<Map<String, DirectoryTree>> typeReference = new TypeReference<Map<String, DirectoryTree>>() {};
@@ -114,8 +111,29 @@ public class CoreObjectServiceImpl extends ServiceImpl<CoreObjectMapper, CoreObj
         // 添加文件采用动态添加 删除采用重建节点
         Map<String, DirectoryTree> directoryTree = getDirectoryTree(coreObject.getBucketId().toString());
         Map<String, DirectoryTree> treeMap = directoryTreeUtil.addFile(coreObject, directoryTree);
-        redisTemplate.opsForValue().set(StringUtil.generateRedisKey(DATABASE,BUCKET_DIR_TREE_KEY,coreObject.getBucketId().toString()),
+        redisTemplate.opsForValue().set(StringUtil.generateRedisKey(DATABASE,BUCKET_DIR_TREE_KEY,
+                        coreObject.getBucketId().toString()),
                 JSON.toJSONString(treeMap));
         return treeMap;
+    }
+
+    @Override
+    public boolean removeOneObject(String bucketId, String key) {
+        QueryWrapper<CoreObject> wrapper = new QueryWrapper<>();
+        wrapper.eq("bucket_id",bucketId);
+        wrapper.eq("remote_key",key);
+        int row = getBaseMapper().delete(wrapper);
+        if(row > 0){
+            redisTemplate.delete(StringUtil.generateRedisKey(DATABASE,BUCKET_DIR_TREE_KEY,bucketId));
+        }
+        return row > 0;
+    }
+
+    @Override
+    public CoreObject getByKey(String bucketId,String remoteKey) {
+        QueryWrapper<CoreObject> wrapper = new QueryWrapper<>();
+        wrapper.eq("bucket_id",bucketId);
+        wrapper.eq("remote_key",remoteKey);
+        return getBaseMapper().selectOne(wrapper);
     }
 }

@@ -79,6 +79,20 @@ public class FastDFSStrategy implements FileStrategy {
         }
     }
 
+    /**
+     *
+     * @param fileKey FastDFS的key 本地key
+     * @return
+     * @throws MyException
+     * @throws IOException
+     */
+    @Override
+    public boolean deleteFile(String fileKey) throws MyException, IOException {
+        String[] split = fileKey.split("@");
+        StorageClient trackerClient = getTrackerClient();
+        return trackerClient.delete_file(split[0], split[1]) == 0;
+    }
+
 
     public StorageClient getTrackerClient() {
         TrackerServer trackerServer = getTrackerServer();
