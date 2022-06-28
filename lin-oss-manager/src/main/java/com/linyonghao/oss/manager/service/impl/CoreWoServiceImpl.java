@@ -91,6 +91,11 @@ public class CoreWoServiceImpl extends ServiceImpl<CoreWoMapper, CoreWo> impleme
         return woRedisService.getPendingWO(userId);
     }
 
+    @Override
+    public CoreWo popOneNew() {
+        return woRedisService.popOneNew();
+    }
+
 
 }
 @Service
@@ -112,6 +117,9 @@ class WoRedisService {
 
     @Value("${redis.database}")
     private String DATABASE;
+
+    @Value("${redis.key.wo.new.id}")
+    private String NEW_KEY;
 
 
     public List<CoreWo> getWoListByUserId(String userId){
@@ -149,6 +157,7 @@ class WoRedisService {
         }
         distribute.add(wo);
         redisTemplate.opsForValue().set((StringUtil.generateRedisKey(DATABASE, DISTRIBUTE_KEY)),JSON.toJSONString(distribute));
+        redisTemplate.opsForList().leftPush((StringUtil.generateRedisKey(DATABASE, NEW_KEY)),wo.getId().toString());
     }
 
     public List<CoreWo> getDistribute(){
@@ -202,4 +211,16 @@ class WoRedisService {
         return JSON.parseObject(s,typeReference.getType());
     }
 
+    /**
+     * 弹出一个新插入数据
+     * @return
+     */
+    public CoreWo popOneNew(){
+        String s = redisTemplate.opsForList().rightPop(StringUtil.generateRedisKey(DATABASE, NEW_KEY));
+        if(s == null){
+            return null;
+        }
+
+        return getById(s);
+    }
 }

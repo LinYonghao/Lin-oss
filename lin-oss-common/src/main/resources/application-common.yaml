@@ -55,6 +55,9 @@ redis:
       distribute: core:wo:distribute
       # 管理员对应woId
       manager: core:wo:manager
+      new:
+        id: core:wo:new:id
+        record: core:wo:new:record
   expired: 3600
 
 logging:
@@ -73,3 +76,6 @@ system:
   domain: linyonghao.com
   core:
     base_url: ${CORE_BASE_URL:http://localhost:8080}
+  wo:
+    snapshot:
+      interval: 1000

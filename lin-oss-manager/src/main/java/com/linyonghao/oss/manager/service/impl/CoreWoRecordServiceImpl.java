@@ -52,18 +52,29 @@ public class CoreWoRecordServiceImpl extends ServiceImpl<CoreWoRecordMapper, Cor
             woRecordList = new ArrayList<>();
         }
         woRecordList.add(record);
+        woRecordRedisService.pushNewList(record);
         woRecordRedisService.setWoRecordList(woRecordList,record.getWoId().toString());
     }
+
+    @Override
+    public CoreWoRecord popOneNew() {
+        return woRecordRedisService.popOneNew();
+    }
+
+
 }
 
 
 @Service
 class WoRecordRedisService {
-@Autowired
+    @Autowired
     StringRedisTemplate redisTemplate;
 
     @Value("${redis.key.wo.record}")
     private String KEY;
+
+    @Value("${redis.key.wo.new.record}")
+    private String NEW_KEY;
 
     @Value("${redis.database}")
     private String DATABASE;
@@ -80,6 +91,19 @@ class WoRecordRedisService {
 
     public void setWoRecordList(List<CoreWoRecord> coreWoList,String woId){
         redisTemplate.opsForValue().set(StringUtil.generateRedisKey(DATABASE, KEY, woId),JSON.toJSONString(coreWoList));
+    }
+
+    public void pushNewList(CoreWoRecord record){
+        redisTemplate.opsForList().rightPush(StringUtil.generateRedisKey(DATABASE,NEW_KEY),JSON.toJSONString(record));
+    }
+
+    public CoreWoRecord popOneNew(){
+        String s = redisTemplate.opsForList().rightPop(StringUtil.generateRedisKey(DATABASE, NEW_KEY));
+        if(s == null){
+            return null;
+        }
+
+        return JSON.parseObject(s,CoreWoRecord.class);
     }
 
 

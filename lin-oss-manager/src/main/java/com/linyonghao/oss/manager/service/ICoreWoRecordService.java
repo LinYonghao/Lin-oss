@@ -17,4 +17,6 @@ public interface ICoreWoRecordService extends IService<CoreWoRecord> {
     List<CoreWoRecord> getRecordList(String woId);
 
     void insertOne(CoreWoRecord record);
+
+    CoreWoRecord popOneNew();
 }

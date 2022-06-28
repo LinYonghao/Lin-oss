@@ -26,4 +26,6 @@ public interface ICoreWoService extends IService<CoreWo> {
 
     List<CoreWo> getPending(String userId);
 
+    CoreWo popOneNew();
+
 }

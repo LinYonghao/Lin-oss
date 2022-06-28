@@ -206,9 +206,6 @@ public class SpaceController {
         } else {
             directoryTree = coreObjectService.getDirTreeByDir(null, bucketId);
         }
-        if(directoryTree == null){
-
-        }
 
 
         HashMap<String, Object> model = new HashMap<>();

@@ -8,6 +8,7 @@ import com.linyonghao.oss.common.service.UserService;
 import com.linyonghao.oss.manager.Constant.MQName;
 import com.linyonghao.oss.manager.entity.JSONResponse;
 import com.linyonghao.oss.manager.service.SMSRedisService;
+import com.linyonghao.oss.manager.service.impl.CoreWoServiceImpl;
 import com.linyonghao.oss.manager.utils.JSONResponseUtil;
 import com.linyonghao.oss.manager.utils.RegexValidateUtil;
 import com.linyonghao.oss.manager.utils.ResponseUtil;
@@ -127,7 +128,6 @@ public class UserController {
         userModel.setMobile(mobile);
         userModel.setUsername(username);
         boolean isSave = userService.save(userModel);
-
         if(isSave){
             smsRedisService.del(mobile);
             return ResponseUtil.success("login",sessionMap,"注册成功!");
