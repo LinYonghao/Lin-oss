@@ -126,8 +126,8 @@ public class UserController {
         UserModel userModel = UserModel.generateOne();
         userModel.setMobile(mobile);
         userModel.setUsername(username);
-
         boolean isSave = userService.save(userModel);
+
         if(isSave){
             smsRedisService.del(mobile);
             return ResponseUtil.success("login",sessionMap,"注册成功!");

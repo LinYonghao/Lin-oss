@@ -65,7 +65,6 @@ public class SpaceController {
      *
      * @return
      */
-    @SaCheckPermission({"bucket-add"})
     @GetMapping("new")
     public ModelAndView newViewGET(HttpServletRequest request) {
         return ResponseUtil.view("space/new", request, null);
@@ -78,7 +77,6 @@ public class SpaceController {
      * @param control
      * @return
      */
-    @SaCheckPermission({"bucket-add"})
     @PostMapping("new")
     public ModelAndView addSpace(String name, String control, HttpServletRequest request) {
         //名称格式为 3 ~ 63 个字符，可以包含小写字母、数字、短划线，且必须以小写字母或者数字开头和结尾。
@@ -90,6 +88,7 @@ public class SpaceController {
         sessionMap.put("name", name);
         QueryWrapper<CoreBucket> wrapper = new QueryWrapper<>();
         wrapper.eq("name", name);
+        wrapper.eq("user_id", StpUtil.getLoginId().toString());
         long count = coreBucketService.count(wrapper);
         if (count > 0) {
             return ResponseUtil.error("space/new", sessionMap, "存在同名的空间");
