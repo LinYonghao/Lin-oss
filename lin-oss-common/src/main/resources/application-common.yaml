@@ -43,6 +43,18 @@ redis:
     bucket:
       id: core:bucket:id
       dir_tree: core:bucket:tree
+    role:
+      user: core:roles:user
+    wo:
+      # id获取用户所有工单
+      list: core:wo:list
+      # 通过woId查详情
+      record: core:wo:record
+      # 通过id查
+      id: core:wo:id
+      distribute: core:wo:distribute
+      # 管理员对应woId
+      manager: core:wo:manager
   expired: 3600
 
 logging:

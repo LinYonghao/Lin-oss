@@ -1,38 +1,61 @@
-Wed Jun 22 00:06:26 CST 2022  [debug] AvalonLogChute initialized using file 'velocity.log'
-Wed Jun 22 00:06:26 CST 2022  [trace] *******************************************************************
-Wed Jun 22 00:06:26 CST 2022  [debug] Starting Jakarta Velocity v1.5-SNAPSHOT (compiled: 2006-07-21 06:25:35)
-Wed Jun 22 00:06:26 CST 2022  [trace] RuntimeInstance initializing.
-Wed Jun 22 00:06:26 CST 2022  [debug] Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-Wed Jun 22 00:06:26 CST 2022  [debug] Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-Wed Jun 22 00:06:26 CST 2022  [debug] Using logger class org.apache.velocity.runtime.log.AvalonLogChute
-Wed Jun 22 00:06:26 CST 2022  [debug] Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-Wed Jun 22 00:06:26 CST 2022  [debug] ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-Wed Jun 22 00:06:26 CST 2022  [trace] ClasspathResourceLoader : initialization complete.
-Wed Jun 22 00:06:26 CST 2022  [debug] ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-Wed Jun 22 00:06:26 CST 2022  [trace] Default ResourceManager initialization complete.
-Wed Jun 22 00:06:26 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-Wed Jun 22 00:06:26 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-Wed Jun 22 00:06:26 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-Wed Jun 22 00:06:26 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Include
-Wed Jun 22 00:06:26 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-Wed Jun 22 00:06:26 CST 2022  [debug] Created '20' parsers.
-Wed Jun 22 00:06:26 CST 2022  [trace] Velocimacro : initialization starting.
-Wed Jun 22 00:06:26 CST 2022  [debug] Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-Wed Jun 22 00:06:26 CST 2022  [debug] Velocimacro : Default library not found.
-Wed Jun 22 00:06:26 CST 2022  [debug] Velocimacro : allowInline = true : VMs can be defined inline in templates
-Wed Jun 22 00:06:26 CST 2022  [debug] Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-Wed Jun 22 00:06:26 CST 2022  [debug] Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-Wed Jun 22 00:06:26 CST 2022  [debug] Velocimacro : autoload off : VM system will not automatically reload global library macros
-Wed Jun 22 00:06:26 CST 2022  [trace] Velocimacro : initialization complete.
-Wed Jun 22 00:06:26 CST 2022  [trace] RuntimeInstance successfully initialized.
-Wed Jun 22 00:06:27 CST 2022  [debug] ResourceManager : found /templates/entity.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-Wed Jun 22 00:06:27 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
-Wed Jun 22 00:06:27 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
-Wed Jun 22 00:06:27 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
-Wed Jun 22 00:06:27 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
-Wed Jun 22 00:06:27 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
-Wed Jun 22 00:06:27 CST 2022  [debug] ResourceManager : found /templates/mapper.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-Wed Jun 22 00:06:27 CST 2022  [debug] ResourceManager : found /templates/mapper.xml.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-Wed Jun 22 00:06:27 CST 2022  [debug] ResourceManager : found /templates/service.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-Wed Jun 22 00:06:27 CST 2022  [debug] ResourceManager : found /templates/serviceImpl.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-Wed Jun 22 00:06:27 CST 2022  [debug] ResourceManager : found /templates/controller.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] AvalonLogChute initialized using file 'velocity.log'
+Mon Jun 27 21:27:02 CST 2022  [trace] *******************************************************************
+Mon Jun 27 21:27:02 CST 2022  [debug] Starting Jakarta Velocity v1.5-SNAPSHOT (compiled: 2006-07-21 06:25:35)
+Mon Jun 27 21:27:02 CST 2022  [trace] RuntimeInstance initializing.
+Mon Jun 27 21:27:02 CST 2022  [debug] Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+Mon Jun 27 21:27:02 CST 2022  [debug] Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+Mon Jun 27 21:27:02 CST 2022  [debug] Using logger class org.apache.velocity.runtime.log.AvalonLogChute
+Mon Jun 27 21:27:02 CST 2022  [debug] Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [trace] ClasspathResourceLoader : initialization complete.
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+Mon Jun 27 21:27:02 CST 2022  [trace] Default ResourceManager initialization complete.
+Mon Jun 27 21:27:02 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+Mon Jun 27 21:27:02 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+Mon Jun 27 21:27:02 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+Mon Jun 27 21:27:02 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Include
+Mon Jun 27 21:27:02 CST 2022  [debug] Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+Mon Jun 27 21:27:02 CST 2022  [debug] Created '20' parsers.
+Mon Jun 27 21:27:02 CST 2022  [trace] Velocimacro : initialization starting.
+Mon Jun 27 21:27:02 CST 2022  [debug] Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+Mon Jun 27 21:27:02 CST 2022  [debug] Velocimacro : Default library not found.
+Mon Jun 27 21:27:02 CST 2022  [debug] Velocimacro : allowInline = true : VMs can be defined inline in templates
+Mon Jun 27 21:27:02 CST 2022  [debug] Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+Mon Jun 27 21:27:02 CST 2022  [debug] Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+Mon Jun 27 21:27:02 CST 2022  [debug] Velocimacro : autoload off : VM system will not automatically reload global library macros
+Mon Jun 27 21:27:02 CST 2022  [trace] Velocimacro : initialization complete.
+Mon Jun 27 21:27:02 CST 2022  [trace] RuntimeInstance successfully initialized.
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/entity.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/mapper.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/mapper.xml.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/service.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/serviceImpl.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/controller.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/entity.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/mapper.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/mapper.xml.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/service.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/serviceImpl.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/controller.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/entity.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [error] Left side ($!{foreach.index}) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. /templates/entity.java.vm [line 148, column 28]
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/mapper.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/mapper.xml.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/service.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/serviceImpl.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Jun 27 21:27:02 CST 2022  [debug] ResourceManager : found /templates/controller.java.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader

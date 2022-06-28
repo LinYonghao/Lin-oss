@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <th:block th:replace="common/css :: css"/>
+    <title>Title</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="p-xs">
+            <div class="pull-left m-r-md">
+                <i class="fa fa-globe text-navy mid-icon"></i>
+            </div>
+            <h2>待分配</h2>
+            <span>确认需要处理的工单</span>
+        </div>
+    </div>
+    <div class="ibox-content forum-container">
+        <th:block th:each="item,status:${wo_list}">
+            <div class="forum-item ">
+                <div class="row">
+                    <div class="col-sm-11">
+                        <a th:href="${'/wo/' + item.id + '/detail'}" class="forum-item-title"
+                           th:text="${(status.index + 1) + '.' + item.title}"></a>
+                    </div>
+                    <div class="col-sm-1 forum-info">
+                        <a th:href="${'/wo/' + item.id +'/process' }">
+                            <button class="btn btn-primary">处理</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+<th:block th:replace="common/js :: js"/>
+</body>
+</html>

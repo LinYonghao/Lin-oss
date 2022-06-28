@@ -47,7 +47,7 @@ public class UserController {
     /**
      * 登录请求
      */
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     public ModelAndView loginPOST(String mobile,String code){
         QueryWrapper<UserModel> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("mobile",mobile);
@@ -69,7 +69,7 @@ public class UserController {
         StpUtil.getSession().set("user_info",userModel);
 
 
-        return ResponseUtil.success("forward:/index",null,"登录成功!");
+        return ResponseUtil.success("redirect:/index",null,"登录成功!");
     }
 
     /**
@@ -83,9 +83,9 @@ public class UserController {
         if (!RegexValidateUtil.checkPhone(mobile)) {
             return JSONResponseUtil.error("手机号码不符合系统规范",null);
         }
-        if (!smsRedisService.isValid(mobile)) {
-            return JSONResponseUtil.error("请稍后再试.",null);
-        }
+//        if (!smsRedisService.isValid(mobile)) {
+//            return JSONResponseUtil.error("请稍后再试.",null);
+//        }
 
         rabbitTemplate.convertAndSend(MQName.SMS_QUEUE,mobile);
         return JSONResponseUtil.success();

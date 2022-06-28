@@ -31,7 +31,15 @@
             <version>1.30.0</version>
         </dependency>
 
-<!--        <dependency>-->
+        <!-- 在 thymeleaf 标签中使用 Sa-Token -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-dialect-thymeleaf</artifactId>
+            <version>1.30.0</version>
+        </dependency>
+
+
+        <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
 <!--            <artifactId>spring-boot-devtools</artifactId>-->
 <!--        </dependency>-->

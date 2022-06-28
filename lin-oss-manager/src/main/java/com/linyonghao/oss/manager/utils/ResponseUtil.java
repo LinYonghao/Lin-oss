@@ -19,6 +19,9 @@ public class ResponseUtil {
         Object lastModel = request.getSession().getAttribute("lastModel");
         request.getSession().removeAttribute("lastModel");
         Map<String, Object> lastModelMap = (Map<String, Object>) lastModel;
+        if (lastModelMap == null){
+            lastModelMap = new HashMap<>();
+        }
         if (model != null) {
             lastModelMap.putAll(model);
         }
@@ -30,8 +33,8 @@ public class ResponseUtil {
             alertText = "";
         }
         ModelAndView modelAndView;
-        if (viewName.startsWith("forward:")) {
-            String view = viewName.substring("forward:".length());
+        if (viewName.startsWith("redirect:")) {
+            String view = viewName.substring("redirect:".length());
             modelAndView = new ModelAndView(new RedirectView(view), model);
         } else {
             modelAndView = new ModelAndView(viewName, model);

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <th:block th:replace="common/css :: css"/>
+    <title>工单详情</title>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="wrapper wrapper-content">
+                <div class="row animated fadeInRight">
+                    <div class="col-sm-12">
+                        <div class="ibox float-e-margins">
+                            <div class="" id="ibox-content">
+
+                                <div id="vertical-timeline" class="vertical-container light-timeline">
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon navy-bg">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2 th:text="${wo.title}"></h2>
+                                            <p th:text="${wo.description}">上一年的销售业绩发布会。总结产品营销和销售趋势及销售的现状。
+                                            </p>
+                                            <br>
+                                            <small th:text="${#dates.format(wo.createTime, 'yyyy/MM/dd HH:mm:ss')}">2月3日</small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="vertical-timeline-block" th:each="item,status:${record_list}">
+                                        <div class="vertical-timeline-icon blue-bg">
+                                            <i class="fa fa-file-text"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <p th:text="${item.message}"></p>
+                                            <br>
+                                            <small th:text="${#dates.format(item.publishTime)}">2月3日</small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form method="post" class="form-horizontal" th:action="${'/wo/'+ wo.id +'/reply'}">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">回复</label>
+                                        <div class="col-sm-10">
+                                            <textarea type="text" class="form-control" name="message"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-primary" type="submit">发布</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<th:block th:replace="common/js :: js"/>
+</body>
+</html>

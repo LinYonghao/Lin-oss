@@ -25,7 +25,9 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@MapperScan(value = {"com.linyonghao.oss.common.dao.mapper.relationship"},sqlSessionTemplateRef = "mysqlSqlSessionTemplate")
+@MapperScan(value = {"com.linyonghao.oss.common.dao.mapper.relationship",
+        "com.linyonghao.oss.manager.mapper"},
+        sqlSessionTemplateRef = "mysqlSqlSessionTemplate")
 public class MysqlServerConfig {
 
     @Bean(name = "mysqlDataSource")
