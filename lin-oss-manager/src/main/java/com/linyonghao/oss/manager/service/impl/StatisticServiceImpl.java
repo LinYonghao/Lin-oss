@@ -130,14 +130,15 @@ public class StatisticServiceImpl implements StatisticService {
          *   |> filter(fn: (r) => r["bucketId"] == "12312313")
          *   |> aggregateWindow(every: 10d, fn:max,createEmpty: true )
          */
-        Date startDate = DateUtil.getNDayByToday(days);
+        Date startDate = DateUtil.getNDayByToday(days + 1);
         String interval = "1d";
         Date endDate =DateUtil.getNextDayStart();
         BucketStatistic bucketStatistic = new BucketStatistic();
-        bucketStatistic.setStorage(this.getStorage(bucketId, startDate, endDate, interval));
+        // TODO 没有动态对子列表处理
+        bucketStatistic.setStorage(this.getStorage(bucketId, startDate, endDate, interval).subList(1,Math.abs(days) + 1));
         bucketStatistic.setGet(this.getGETCount(bucketId,startDate,endDate,interval));
         bucketStatistic.setPost(this.getPOSTCount(bucketId,startDate,endDate,interval));
-        bucketStatistic.setObjNum(this.getObjNum(bucketId,startDate,endDate,interval));
+        bucketStatistic.setObjNum(this.getObjNum(bucketId,startDate,endDate,interval).subList(1,Math.abs(days) + 1));
         return bucketStatistic;
 
     }
@@ -150,7 +151,7 @@ public class StatisticServiceImpl implements StatisticService {
                 .filterEqString("bucketId", bucketId)
                 .group()
                 .aggregateWindow(interval, "max", true)
-                .oneValue();
+                .oneValue(true);
     }
 
 
@@ -190,7 +191,7 @@ public class StatisticServiceImpl implements StatisticService {
                 .filterEqString("bucketId", bucketId)
                 .group()
                 .aggregateWindow(interval, "max", true)
-                .oneValue();
+                .oneValue(true);
     }
 
 

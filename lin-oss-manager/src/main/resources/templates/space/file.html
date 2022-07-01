@@ -8,9 +8,9 @@
     <th:block th:replace="common/css :: css"/>
     <link href="/js/plugins/webuploader/webuploader.css" rel="stylesheet">
     <style>
-        #picker div{
-            width:100%;
-            height:100%;
+        #picker div {
+            width: 100%;
+            height: 100%;
         }
     </style>
     <title>文件管理</title>
@@ -57,23 +57,23 @@
                 <div class="col-sm-12">
                     <div class="file-box" th:each="item,status:${file_list?.list}">
                         <div class="file file-item" data-toggle="modal" data-target="#detailModal">
-                                <span class="corner"></span>
-                                <span style="display: none" class="size" th:text="${item.size}"></span>
+                            <span class="corner"></span>
+                            <span style="display: none" class="size" th:text="${item.size}"></span>
                             <span style="display: none" class="key" th:text="${item.remoteKey}"></span>
                             <span style="display: none" class="mine" th:text="${item?.mine}"></span>
-                                <div class="icon" th:if="${item.mine == null}">
-                                    <i class="fa fa-file"></i>
-                                </div>
-                                <div class="image"
-                                     th:if="${item.mine != null &&  #strings.startsWith(item.mine,'image')}">
-                                    <img alt="image" class="img-responsive"
-                                         th:src="${base_url + item.remoteKey + '?Token=' + token}">
-                                </div>
-                                <div class="file-name" th:text="${item.remoteKey}" style="overflow: hidden">
-                                    Document_2014.doc
-                                    <br/>
-                                    <small th:text="${#dates.format(item.createTime, 'yyyy/MM/dd')}">添加时间：2014-10-13</small>
-                                </div>
+                            <div class="icon" th:if="${item.mine == null}">
+                                <i class="fa fa-file"></i>
+                            </div>
+                            <div class="image"
+                                 th:if="${item.mine != null &&  #strings.startsWith(item.mine,'image')}">
+                                <img alt="image" class="img-responsive"
+                                     th:src="${base_url + item.remoteKey + '?Token=' + token}">
+                            </div>
+                            <div class="file-name" th:text="${item.remoteKey}" style="overflow: hidden">
+                                Document_2014.doc
+                                <br/>
+                                <small th:text="${#dates.format(item.createTime, 'yyyy/MM/dd')}">添加时间：2014-10-13</small>
+                            </div>
                         </div>
 
                     </div>
@@ -133,13 +133,16 @@
                 <h4 class="modal-title">文件预览</h4>
             </div>
             <div class="modal-body">
-                <div class="key"></div>
+                <div class="form-group">
+                    <label>Key:</label>
+                    <input type="text" class="form-control key_input" value="">
+                </div>
                 <div class="size"></div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-error"  id="delete">删除文件</button>
-
+                <button type="button" class="btn btn-warning" id="save">保存</button>
+                <button type="button" class="btn btn-error" id="delete">删除文件</button>
                 <a href="" class="download-link">
                     <button type="button" class="btn btn-primary" id="download">下载文件</button>
                 </a>

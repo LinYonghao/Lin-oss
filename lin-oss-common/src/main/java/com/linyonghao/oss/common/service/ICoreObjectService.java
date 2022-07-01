@@ -30,4 +30,6 @@ public interface ICoreObjectService extends IService<CoreObject> {
 
     CoreObject getByKey(String bucketId,String remoteKey);
 
+    boolean updateKey(String bucketId,String oldKey,String newKey);
+
 }

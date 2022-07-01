@@ -1,6 +1,10 @@
 package com.linyonghao.oss.common.entity;
 
+import ch.qos.logback.core.util.FileUtil;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.linyonghao.oss.common.utils.StringUtil;
+import com.linyonghao.oss.common.vo.CoreObjectVO;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -107,6 +111,11 @@ public class CoreObject implements Serializable {
 
       public void setLocalKey(String localKey) {
           this.localKey = localKey;
+      }
+
+
+      public CoreObjectVO toCoreObjectVO(){
+        return new CoreObjectVO(id,bucketId,remoteKey,createTime,mine,localKey, StringUtil.formatByteSize(size));
       }
 
     @Override

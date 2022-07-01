@@ -3,11 +3,11 @@ var uploader = WebUploader.create({
     pick: '#picker',
     resize: false,
     server: "",
-    fileSingleSizeLimit:1024 * 1024 * 1024
+    fileSingleSizeLimit: 1024 * 1024 * 1024
 });
 
 console.log(uploader)
-
+// 文件上传
 $("#upload").click(() => {
     const key = $("#key").val()
 
@@ -45,7 +45,7 @@ uploader.on('uploadSuccess', function (file) {
 });
 
 // 文件详情显示
-$(".file-item").click(function() {
+$(".file-item").click(function () {
     console.log(this)
     const that = this
     // 获取token
@@ -58,21 +58,21 @@ $(".file-item").click(function() {
             const size = $(that).find(".size").text()
             const key = $(that).find(".key").text()
 
-            $("#detailModal .key").text("Key:" +  key)
+            $(".key_input").val( key)
             $("#detailModal .size").text("文件大小" + size)
 
             const keys = key.split("/")
             const filename = keys[keys.length - 1]
-            $("#detailModal .download-link").attr('href',`${res.data.base_url}/download/${key}?Token=${res.data.token}&attachment=${filename}`)
-            $("#detailModal #delete").attr('data-key',`${key}`)
+            $("#detailModal .download-link").attr('href', `${res.data.base_url}/download/${key}?Token=${res.data.token}&attachment=${filename}`)
+            $("#detailModal #delete").attr('data-key', `${key}`)
+            $("#detailModal #save").attr('data-key', `${key}`)
 
         }
     })
 })
 
 // 删除文件
-
-$("#delete").click(function() {
+$("#delete").click(function () {
     console.log(this)
     const that = this
     // 获取token
@@ -84,11 +84,11 @@ $("#delete").click(function() {
             const key = $(that).attr("data-key")
             console.log(res.data.base_url + '/delete/' + key + '?Token=' + res.data.token)
             $.ajax({
-                url:res.data.base_url + '/delete/' + key + '?Token=' + res.data.token,
-                method:'delete',
-                datatype:'json',
-                success(result){
-                    if(result.code === 200){
+                url: res.data.base_url + '/delete/' + key + '?Token=' + res.data.token,
+                method: 'delete',
+                datatype: 'json',
+                success(result) {
+                    if (result.code === 200) {
                         refreshWindow()
                     }
                 }
@@ -97,11 +97,42 @@ $("#delete").click(function() {
     })
 })
 // 解决点击webuploader按钮没有效果 F12或缩放浏览器再按正常的情况 原因：模态框没有渲染 不知道宽高
-$(`#uploadModal`).on(`shown.bs.modal`,function(e){
+$(`#uploadModal`).on(`shown.bs.modal`, function (e) {
     uploader.refresh()
 });
 
+// 保存文件(修改key)
+$("#save").click(function () {
+    console.log(this)
+    const that = this
+    // 获取token
+    $.ajax({
+        url: "/space/" + bucketId + '/api/token',
+        method: "get",
+        datatype: "json",
+        success(res) {
+            const key = $(that).attr("data-key")
+            $.ajax({
+                url: res.data.base_url + '/obj?Token=' + res.data.token,
+                method: 'put',
+                data: JSON.stringify({
+                    "key": key,
+                    "newKey": $(".key_input").val()
+                }),
+                contentType:"application/json",
+                datatype: 'json',
+                success(result) {
+                    if (result.code === 200) {
+                        $.success("修改成功!")
+                        setTimeout(refreshWindow,2000)
+                    }
+                }
+            })
+        }
+    })
+})
 
-function refreshWindow(){
+
+function refreshWindow() {
     window.location.reload();
 }

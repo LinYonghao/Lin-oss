@@ -204,16 +204,17 @@ public class Query<T> {
         return flux.toString();
     }
 
-    public List<CountWithTime> oneValue(){
+    public List<CountWithTime> oneValue(boolean lastValueIfNull){
         String build = build();
         List<FluxTable> query = InfluxdbGlobal.getInstance().getQueryApi().query(build);
         List<CountWithTime> counts = new ArrayList<>();
+        Long lastValue = 0L;
         for (FluxTable fluxTable : query) {
             List<FluxRecord> records = fluxTable.getRecords();
             for (FluxRecord record : records) {
                 Object value = record.getValueByKey("_value");
-                if (value == null){
-                    value = 0L;
+                if (value == null && lastValueIfNull){
+                    value = (Object) lastValue;
                 }
                 assert record.getTime() != null;
                 long epochSecond = record.getTime().getEpochSecond();
@@ -221,6 +222,7 @@ public class Query<T> {
                     epochSecond = record.getStart().getEpochSecond();
                 }
                 counts.add(new CountWithTime((Long) value,epochSecond));
+                lastValue = (Long) value;
             }
 
         }

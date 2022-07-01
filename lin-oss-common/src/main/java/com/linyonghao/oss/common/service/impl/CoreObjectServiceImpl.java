@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Array;
 import java.util.*;
@@ -135,5 +136,26 @@ public class CoreObjectServiceImpl extends ServiceImpl<CoreObjectMapper, CoreObj
         wrapper.eq("bucket_id",bucketId);
         wrapper.eq("remote_key",remoteKey);
         return getBaseMapper().selectOne(wrapper);
+    }
+
+    /**
+     * 更新key
+     * @param bucketId 空间id
+     * @param key 需修改的键
+     * @param newKey 新键
+     * @return 是否修改成功
+     */
+    @Override
+    @Transactional
+    public boolean updateKey(String bucketId, String key, String newKey) {
+        // 更新库
+        QueryWrapper<CoreObject> wrapper = new QueryWrapper<>();
+        wrapper.eq("bucket_id",bucketId);
+        wrapper.eq("remote_key",key);
+        CoreObject object = getBaseMapper().selectOne(wrapper);
+        object.setRemoteKey(newKey);
+        getBaseMapper().updateById(object);
+        // 删除redis 下次会重建节点数
+        return Boolean.TRUE.equals(redisTemplate.delete(StringUtil.generateRedisKey(DATABASE, BUCKET_DIR_TREE_KEY, bucketId)));
     }
 }

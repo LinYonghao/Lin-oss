@@ -59,7 +59,9 @@ public class CoreBucketServiceImpl extends ServiceImpl<CoreBucketMapper, CoreBuc
 
         List<CountWithTime> countWithTimes = apiLogMapper.query().range(DateUtil.getThisMonthStartDay().getTime() / 1000, new Date().getTime() / 1000)
                 .filterMeasurement()
+                .filterEqString("bucketId",bucketId)
                 .filterEqString("type", String.valueOf(APILogModel.DOWNLOAD))
+                .group()
                 .count();
 
         if(countWithTimes.size() == 1){
@@ -72,7 +74,9 @@ public class CoreBucketServiceImpl extends ServiceImpl<CoreBucketMapper, CoreBuc
     public long getThisMonthPOSTCount(String bucketId) {
         List<CountWithTime> countWithTimes = apiLogMapper.query().range(DateUtil.getThisMonthStartDay().getTime() / 1000, new Date().getTime() / 1000)
                 .filterMeasurement()
+                .filterEqString("bucketId",bucketId)
                 .filterEqString("type", String.valueOf(APILogModel.UPLOAD))
+                .group()
                 .count();
 
         if(countWithTimes.size() == 1){

@@ -67,7 +67,7 @@
                     <div class="col-sm-8">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title" style="border-bottom:none;background:#fff;">
-                                <h5>API调用</h5>
+                                <h5>当日API调用</h5>
                             </div>
                             <div class="ibox-content" style="border-top:none;">
                                 <div id="APIContainer" style="height:217px;">
@@ -90,7 +90,6 @@
                                     <th>空间名</th>
                                     <th>对象个数</th>
                                     <th>空间大小</th>
-                                    <th>POST/GET次数</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -99,7 +98,6 @@
                                     <td th:text="${item.name}"></td>
                                     <td th:text="${item.objectNum}"></td>
                                     <td th:text="${item.spaceSize}"></td>
-                                    <td>0</td>
                                 </tr>
                                 </tbody>
                             </table>

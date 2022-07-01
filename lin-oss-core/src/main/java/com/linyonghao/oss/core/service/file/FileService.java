@@ -18,4 +18,5 @@ public interface FileService {
     OSSFile downloadFile(long bucketId, String key, DownloadParams downloadParams, String clientIp) throws FileDownloadException, NotfoundFileException;
 
     boolean delete(String bucketId,String key) throws MyException, IOException;
+
 }

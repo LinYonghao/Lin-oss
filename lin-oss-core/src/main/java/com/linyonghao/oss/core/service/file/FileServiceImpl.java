@@ -41,6 +41,7 @@ public class FileServiceImpl implements FileService {
 
     FileStrategy fileStrategy;
 
+
     public FileServiceImpl(FileStrategy fileStrategy) {
         this.fileStrategy = fileStrategy;
     }
@@ -120,4 +121,5 @@ public class FileServiceImpl implements FileService {
         fileStrategy.deleteFile(object.getLocalKey());
         return coreObjectService.removeOneObject(bucketId,key);
     }
+
 }

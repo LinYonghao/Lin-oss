@@ -17,6 +17,7 @@ import com.linyonghao.oss.common.service.ICoreDomainService;
 import com.linyonghao.oss.common.service.ICoreObjectService;
 import com.linyonghao.oss.common.service.impl.TemporaryUpDownRedisService;
 import com.linyonghao.oss.common.utils.StringUtil;
+import com.linyonghao.oss.common.vo.CoreObjectVO;
 import com.linyonghao.oss.manager.Constant.PageConstant;
 import com.linyonghao.oss.manager.annotation.OssCheckBucket;
 import com.linyonghao.oss.manager.dto.BucketStatistic;
@@ -67,7 +68,8 @@ public class SpaceController {
      */
     @GetMapping("new")
     public ModelAndView newViewGET(HttpServletRequest request) {
-        return ResponseUtil.view("space/new", request, null);
+        return ResponseUtil.view("space/new", request,
+                null);
     }
 
     /**
@@ -189,7 +191,7 @@ public class SpaceController {
         Map<String, Object> model = getFileList(page, bucketId, dir);
 
         if ( model.get("is_empty") == null || (Boolean) model.get("is_empty")) {
-            return ResponseUtil.error("/space/file", model, "找不到该目录");
+            return ResponseUtil.view("redirect:/space/"+bucketId+"/file", null);
         }
 
         return ResponseUtil.view("/space/file", model);
@@ -206,10 +208,20 @@ public class SpaceController {
         } else {
             directoryTree = coreObjectService.getDirTreeByDir(null, bucketId);
         }
-
-
         HashMap<String, Object> model = new HashMap<>();
-        PageInfo<CoreObject> coreObjectPageInfo = PageHelperUtil.getPageInfo(page, PageConstant.EVERY_PAGE_NUM, directoryTree.getFiles());
+
+        if(directoryTree == null){
+            model.put("is_empty",true);
+            return model;
+        }
+
+        List<CoreObject> files = directoryTree.getFiles();
+        List<CoreObjectVO> coreObjectVOS = new ArrayList<>();
+        files.forEach((v)->{
+            coreObjectVOS.add(v.toCoreObjectVO());
+        });
+
+        PageInfo<CoreObjectVO> coreObjectPageInfo = PageHelperUtil.getPageInfo(page, PageConstant.EVERY_PAGE_NUM, coreObjectVOS);
         String token = temporaryUpDownRedisService.generateOneKey(bucketId, StpUtil.getLoginId().toString());
         String currentDir =  dir == null ? "" : "/" + dir;
         ArrayList<String>  dirNames = new ArrayList<>();
@@ -218,7 +230,7 @@ public class SpaceController {
             curDir += s + "/";
             dirNames.add(curDir);
         }
-        // TODO 必须重构 路径信息乱
+        // TODO 重构 路径信息乱
         model.put("file_list", coreObjectPageInfo);
         model.put("bucket_id", bucketId);
         model.put("temporary_token", token);
