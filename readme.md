@@ -4,11 +4,19 @@
 
 
 ## Dependency
-You can install these dependencies by docker-compose.yaml 
+You can install these dependencies by docker-compose.yaml (later)
+
+**Middleware**
 - Mysql
 - [Influxdb](https://www.influxdata.com/) (a sequential database)
 - Redis
 - FastDFS
+
+**Framework**
+- springboot
+- [sa-token](https://sa-token.dev33.cn/)(a security management framework make in China)
+- [fastJson2](https://github.com/alibaba/fastjson2)(a json serialization lib)
+
 
 ## Module Description
 - lin-oss-common :Common data interfaces and utils 
@@ -19,4 +27,15 @@ You can install these dependencies by docker-compose.yaml
 
 ## Start
 ### 1.set environment
-    LIN_DFS_HOST: fastdfs hostr
+    LIN_DFS_TRACKER_HOST=wsl;
+    LIN_REDIS_HOST=wsl;
+    LIN_RABBITMQ_HOST=wsl;
+    LIN_TDENGINE_HOST=wsl;
+    LIN_INFLUXDB_HOST=wsl
+    
+## TODO
+1.improve the core
+
+
+## preview
+![](https://s2.loli.net/2022/07/01/PG1nXzdqN4Jsk5l.png)
